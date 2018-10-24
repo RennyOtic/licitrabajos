@@ -6,7 +6,7 @@
 				<table :id="id" class="table table-bordered table-hover table-condensed">
 					<thead>
 						<tr>
-							<th v-for="column in columns">{{ column.title }} <span class="fa fa-angle-left pull-right btn" v-if="column.sortable" @click="sort(column,$event)"></span></th>
+							<th v-for="column in columns">{{ column.title }} <span class="fa fa-angle-left pull-right btn-xs" v-if="column.sortable" @click="sort(column,$event)"></span></th>
 						</tr>
 					</thead>
 					<tbody>

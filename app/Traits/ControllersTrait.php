@@ -2,8 +2,6 @@
 
 namespace App\Traits;
 
-use App\Models\Permisologia\Role;
-
 trait ControllersTrait
 {
     public function dataWithPagination($model)
@@ -19,14 +17,5 @@ trait ControllersTrait
             ],
             'data' => $model->all(),
         ]);
-    }
-
-    public function idsOfRol($array)
-    {
-        $roles = [];
-        foreach ($array as $a) {
-            $roles[] = Role::where('name', '=', $a)->first()->id;
-        }
-        return $roles;
     }
 }

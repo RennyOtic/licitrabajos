@@ -9,7 +9,7 @@
 				</div>
 				<div class="pull-left info">
 					<p>
-						<router-link :to="{ name: 'profile' }">
+						<router-link :to="{ name: 'profile' }" style="color: black">
 							{{ all.user.fullName }}
 						</router-link>
 					</p>
@@ -19,18 +19,7 @@
 				</div>
 			</div>
 
-			<form action="#" method="get" class="sidebar-form" id="sidebar-form">
-				<div class="input-group">
-					<input type="text" name="q" class="form-control" placeholder="Search..." id="search-input">
-					<span class="input-group-btn">
-						<button type="submit" name="search" id="search-btn" class="btn btn-flat">
-							<i class="fa fa-search"></i>
-						</button>
-					</span>
-				</div>
-			</form>
-
-			<v-menu></v-menu>
+			<rs-menu></rs-menu>
 
 		</section>
 	</aside>
@@ -43,7 +32,7 @@
 		name: 'v-sidebar',
 		props: ['all'],
 		components: {
-			'v-menu': Menu
+			'rs-menu': Menu
 		}
 	}
 </script>

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Permisologia\Permission;
+use App\Models\Permisologia\Permiso;
 use App\Http\Requests\PermissionUpdateRequest;
 
 class PermissionsController extends Controller
@@ -12,7 +12,6 @@ class PermissionsController extends Controller
 
     public function __construct()
     {
-        $this->middleware('onlyAjax');
         $this->middleware('can:permission,index')->only(['index']);
         $this->middleware('can:permission,show')->only(['show']);
     }
@@ -25,18 +24,16 @@ class PermissionsController extends Controller
      */
     public function index(Request $request)
     {
-        $permissions = Permission::withTrashed()
+        $permissions = Permiso::withTrashed()
         ->orderBy(request()->order?:'id', request()->dir?:'DESC')
         ->search(request()->search)
         ->paginate(request()->num?:10);
 
         $permissions->each(function ($p) {
-            $p->action = $p->module . '.' . $p->action;
-            $p->active = ($p->deleted_at) ? 
-            '<i class="glyphicon glyphicon-unchecked text-center"></i>' : 
-            '<i class="glyphicon glyphicon-check text-center"></i>';
+            $p->activo = ($p->deleted_at) ? 
+            '<i class="glyphicon glyphicon-unchecked"></i>' : 
+            '<i class="glyphicon glyphicon-check"></i>';
         });
-
         return $this->dataWithPagination($permissions);
     }
 
@@ -48,7 +45,8 @@ class PermissionsController extends Controller
      */
     public function show($id)
     {
-        $permission = Permission::withTrashed()->findOrFail($id);
+        $permission = Permiso::withTrashed()->findOrFail($id);
+        $permission->activo = ($permission->deleted_at) ? true : false;
         return response()->json($permission);
     }
 
@@ -61,9 +59,8 @@ class PermissionsController extends Controller
      */
     public function update(PermissionUpdateRequest $request, $id)
     {
-        $permission = Permission::withTrashed()->findOrFail($id);
-        ($request->deleted_at) ? $permission->delete() : $permission->restore();
+        $permission = Permiso::withTrashed()->findOrFail($id);
         $permission->update($request->validated());
-        return response()->json($permission);
+        ($request->activo) ? $permission->delete() : $permission->restore();
     }
 }

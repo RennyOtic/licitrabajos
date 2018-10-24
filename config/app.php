@@ -151,7 +151,6 @@ return [
          * Package Service Providers...
          */
         Barryvdh\Debugbar\ServiceProvider::class,
-        // Yajra\DataTables\DataTablesServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -213,7 +212,6 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Carbon' => Carbon\Carbon::class,
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
-        // 'DataTables' => Yajra\DataTables\Facades\DataTables::class,
     ],
 
 ];

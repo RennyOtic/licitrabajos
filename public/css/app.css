@@ -11661,3 +11661,12 @@ nav.navbar.navbar-static-top a.sidebar-toggle {
   max-height: 50px !important;
 }
 
+select.form-control {
+  width: 100% !important;
+}
+
+div.multiselect__tags {
+  border-radius: 0px;
+  border-color: #d2d6de;
+}
+

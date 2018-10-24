@@ -7,7 +7,7 @@
 
                     <h3 class="profile-username text-center" v-text="user.fullName"></h3>
 
-                    <p class="text-muted text-center" v-for="rol in user.roles">{{ rol.name }}<br></p>
+                    <p class="text-muted text-center" v-for="rol in user.roles">{{ rol.nombre }}<br></p>
                 </div>
             </div>
         </div>
@@ -22,37 +22,31 @@
                     <div id="settings" class="tab-pane active">
                         <form class="form-horizontal" enctype="multipart/form-data" @submit.prevent="updateUser">
                             <div class="form-group"> <!-- has-feedback -->
-                                <label for="name" class="col-sm-2 control-label">Nombres:</label>
+                                <label for="nombre" class="col-sm-2 control-label">Nombres:</label>
                                 <div class="col-sm-10">
-                                    <input id="name" type="text" class="form-control" placeholder="Nombres" v-model="user.name">
+                                    <input id="nombre" type="text" class="form-control" placeholder="Nombres" v-model="user.nombre">
                                     <small id="nameHelp" class="form-text"></small>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="last_name" class="col-sm-2 control-label">Apellidos:</label>
+                                <label for="apellido" class="col-sm-2 control-label">Apellidos:</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="last_name" placeholder="Apellidos" v-model="user.last_name">
+                                    <input type="text" class="form-control" id="apellido" placeholder="Apellidos" v-model="user.apellido">
                                     <small id="last_nameHelp" class="form-text"></small>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="email" class="col-sm-2 control-label">Correo:</label>
+                                <label for="correo" class="col-sm-2 control-label">Correo:</label>
                                 <div class="col-sm-10">
-                                    <input type="email" class="form-control" id="email" placeholder="Correo@dominio.com" v-model="user.email">
+                                    <input type="email" class="form-control" id="correo" placeholder="Correo@dominio.com" v-model="user.correo">
                                     <small id="emailHelp" class="form-text"></small>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="num_id" class="col-sm-2 control-label">Cédula:</label>
+                                <label for="identificacion" class="col-sm-2 control-label">Identificación:</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="num_id" placeholder="Cédula" v-model="user.num_id">
+                                    <input type="text" class="form-control" id="identificacion" placeholder="N° Identificación" v-model="user.identificacion">
                                     <small id="num_idHelp" class="form-text"></small>
-                                </div>
-                            </div>
-                            <div class="form-group" v-if="user.module">
-                                <label for="module" class="col-sm-2 control-label">Módulo:</label>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="module" placeholder="Módulo" v-model="user.module.module" readonly>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -110,7 +104,6 @@
             return {
                 user: {
                     fullName: '',
-                    module: '',
                     image: '',
                 },
                 pass: {
@@ -142,13 +135,12 @@
             updateUser() {
                 var data = new  FormData();
                 data.append('image', this.user.image);
-                data.append('name', this.user.name);
-                data.append('last_name', this.user.last_name);
-                data.append('email', this.user.email);
-                data.append('num_id', this.user.num_id);
+                data.append('nombre', this.user.nombre);
+                data.append('apellido', this.user.apellido);
+                data.append('correo', this.user.correo);
+                data.append('identificacion', this.user.identificacion);
 
-
-                axios.post('update-user', data)
+                axios.post('/update-user', data)
                 .then(response => {
                     toastr.success('Datos Actualizados');
                     window.location.reload();

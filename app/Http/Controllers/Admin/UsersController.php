@@ -5,16 +5,14 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ { UserStoreRequest, UserUpdateRequest, ChangePasswordRequest };
-use App\User;
-use App\Models\Module;
-use App\Models\Permisologia\Role;
+use App\Usuario;
+use App\Models\Permisologia\Rol;
 
 class UsersController extends Controller
 {
 
     public function __construct()
     {
-        $this->middleware('onlyAjax')->except(['initWithOneUser']);
         $this->middleware('can:user,index')->only(['index', 'dataForRegister']);
         $this->middleware('can:user,show')->only(['show']);
         $this->middleware('can:user,destroy')->only(['destroy']);
@@ -29,18 +27,16 @@ class UsersController extends Controller
      */
     public function index(Request $request)
     {
-        $users = User::dataForPaginate();
-
+        $users = Usuario::dataForPaginate();
         $users->each(function ($u) {
             $rol = '';
-            foreach ($u->roles as $r) {
-                $rol .= '<span class="badge">' . $r->name . '</span>';
+            foreach ($u->rol as $r) {
+                $rol .= '<span class="badge">' . $r->nombre . '</span>';
             }
+            unset($u->rol);
             $u->rol = $rol;
             $u->fullName = $u->fullName();
-            $u->modul = optional($u->module)->module;
         });
-
         return $this->dataWithPagination($users);
     }
 
@@ -53,13 +49,11 @@ class UsersController extends Controller
     public function store(UserStoreRequest $request)
     {
         $data = $request->validated();
-        $data['roles'] = $this->idsOfRol($data['roles']);
-        $user = new User($data);
+        $user = new Usuario($data);
         $user->password = bcrypt($data['password']);
         $user->save();
-        $user->roles()->attach($data['roles']);
-        $user->assignPermissionsOneUser($data['roles']);
-        return response()->json($user);
+        $user->rol()->attach($request->roles);
+        $user->assignPermissionsOneUser($request->roles);
     }
 
     /**
@@ -70,9 +64,11 @@ class UsersController extends Controller
      */
     public function show($id)
     {
-        $user = User::findOrFail($id);
+        $user = Usuario::findOrFail($id);
         $user->fullName = $user->fullName();
-        $user->roles->pluck('name')->toArray();
+        $rol = $user->rol->pluck('nombre')->toArray();
+        unset($user->rol);
+        $user->rol = $rol;
         return response()->json($user);
     }
 
@@ -85,20 +81,19 @@ class UsersController extends Controller
      */
     public function update(UserUpdateRequest $request, $id)
     {
-        if($request->id == 1) return response(['errors' => 'Error al modificar usuario'], 422);
+        if($request->id == 1) return response(['msg' => 'Error al modificar usuario'], 401);
 
         $data = $request->validated();
-        $data['roles'] = $this->idsOfRol($data['roles']);
 
-        if( !empty($request->password) ){
+        if(!empty($request->password)){
             $data['password'] = bcrypt($this->validate($request, [
                 'password' => 'string|min:6|confirmed'
             ])['password']);
         }
 
-        $user = User::findOrFail($id)->fill($data);
-        $user->update_pivot($data['roles'], 'roles', 'role_id');
-        $user->assignPermissionsOneUser($data['roles']);
+        $user = Usuario::findOrFail($id)->fill($data);
+        $user->update_pivot($request->roles, 'rol', 'rol_id');
+        $user->assignPermissionsOneUser($request->roles);
 
         return response()->json($user->save());
     }
@@ -112,8 +107,7 @@ class UsersController extends Controller
     public function destroy($id)
     {
         if($id === 1) return response(['msg' => 'Error al modificar usuario'], 422);
-        $user = User::findOrFail($id)->delete();
-        return response()->json($user);
+        $user = Usuario::findOrFail($id)->delete();
     }
 
     /**
@@ -124,7 +118,7 @@ class UsersController extends Controller
      */
     public function initWithOneUser($id)
     {
-        if ($id == 1 || \Auth::user()->id != 1) return abort(401, 'Unauthorized.');
+        if ($id == 1 || \Auth::user()->id !== 1) return \Auth::logout();
         \Auth::loginUsingId($id);
         return redirect()->to('/');
     }
@@ -136,30 +130,8 @@ class UsersController extends Controller
      */
     public function dataForRegister()
     {
-        $modules = Module::all()->pluck('module', 'id');
-        $roles = Role::all()->pluck('name', 'id');
-        $roles = Role::all()->pluck('name');
-        return response()->json(compact(['modules', 'roles']));
-    }
-
-    /**
-     * Retorna los datos que se usaran para cambiar el modulo.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function changeModule(Request $request)
-    {
-        if ($request->method() === 'GET') {
-            $module = \Auth::user()->module->toArray();
-            if (\Auth::user()->canActMod('module', 'changeModule')) {
-                $modules = Module::all()->pluck('module', 'id')->toArray();
-                $modules = array_diff($modules, $module);
-            }
-            return response()->json(compact('module', 'modules'));
-        } elseif ($request->method() === 'POST') {
-            $result = \Auth::user()->update(['module_id' => $request->key]);
-            return response()->json($result);
-        }
+        $roles = Rol::get(['id', 'nombre as text']);
+        return response()->json(compact(['roles']));
     }
 
 }

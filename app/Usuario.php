@@ -7,9 +7,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Traits\ { ModelsTrait, PermissionTrait };
 
-class User extends Authenticatable
+class Usuario extends Authenticatable
 {
     use Notifiable, ModelsTrait, PermissionTrait, SoftDeletes;
+
+    protected $table = 'usuario';
 
     /**
      * The attributes that are mass assignable.
@@ -17,11 +19,10 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name',
-        'last_name',
-        'num_id',
-        'email',
-        'module_id',
+        'nombre',
+        'apellido',
+        'identificacion',
+        'correo',
         'password'
     ];
 
@@ -46,28 +47,19 @@ class User extends Authenticatable
     ];
 
     /**
-     * Obtener el modulo que posee el usuario.
-     */
-    public function module()
-    {
-        // pertenece a
-        return $this->belongsTo(Models\Module::class);
-    }
-
-    /**
      * Obtener los roles que posee el usuario.
      */
-    public function roles()
+    public function rol()
     {
         // pertenece a muchas
-        return $this->belongsToMany(Models\Permisologia\Role::class);
+        return $this->belongsToMany(Models\Permisologia\Rol::class);
     }
 
     /**
      * Obtener los permisos que posee el usuario.
      */
-    public function permissions()
+    public function permisos()
     {
-        return $this->belongsToMany(Models\Permisologia\Permission::class);
+        return $this->belongsToMany(Models\Permisologia\Permiso::class);
     }
 }

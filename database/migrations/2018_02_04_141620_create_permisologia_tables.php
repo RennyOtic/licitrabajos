@@ -14,53 +14,53 @@ class CreatePermisologiaTables extends Migration
     public function up()
     {
 
-        Schema::create('roles', function (Blueprint $table) {
+        Schema::create('rol', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name', 50);
+            $table->string('nombre');
             $table->string('slug')->unique();
-            $table->text('description')->nullable();
-            $table->time('from_at')->nullable();
-            $table->time('to_at')->nullable();
-            $table->enum('special', ['all-access', 'no-access'])->nullable();
+            $table->text('descripcion')->nullable();
+            $table->time('desde_at')->nullable();
+            $table->time('hasta_at')->nullable();
+            $table->boolean('especial')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
 
-        Schema::create('role_user', function (Blueprint $table) {
-            $table->integer('user_id')->unsigned()->index();
-            $table->integer('role_id')->unsigned()->index();
+        Schema::create('rol_usuario', function (Blueprint $table) {
+            $table->integer('usuario_id')->unsigned()->index();
+            $table->integer('rol_id')->unsigned()->index();
 
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade');
-            $table->primary(['user_id', 'role_id']);
+            $table->foreign('usuario_id')->references('id')->on('usuario')->onDelete('cascade');
+            $table->foreign('rol_id')->references('id')->on('rol')->onDelete('cascade');
+            $table->primary(['usuario_id', 'rol_id']);
         });
 
-        Schema::create('permissions', function (Blueprint $table) {
+        Schema::create('permiso', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name', 25)->unique();
-            $table->string('module', 15); // users | roles ..
-            $table->string('action', 15); // index | show | store | update | destroy
-            $table->text('description')->nullable();
+            $table->string('nombre')->unique();
+            $table->string('modulo'); // users | rol ..
+            $table->string('accion'); // index | show | store | update | destroy
+            $table->text('descripcion')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
 
-        Schema::create('permission_role', function (Blueprint $table) {
-            $table->integer('role_id')->unsigned()->index();
-            $table->integer('permission_id')->unsigned()->index();
+        Schema::create('permiso_rol', function (Blueprint $table) {
+            $table->integer('rol_id')->unsigned()->index();
+            $table->integer('permiso_id')->unsigned()->index();
 
-            $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade');
-            $table->foreign('permission_id')->references('id')->on('permissions')->onDelete('cascade');
-            $table->primary(['role_id', 'permission_id']);
+            $table->foreign('rol_id')->references('id')->on('rol')->onDelete('cascade');
+            $table->foreign('permiso_id')->references('id')->on('permiso')->onDelete('cascade');
+            $table->primary(['rol_id', 'permiso_id']);
         });
 
-        Schema::create('permission_user', function (Blueprint $table) {
-            $table->integer('user_id')->unsigned()->index();
-            $table->integer('permission_id')->unsigned()->index();
+        Schema::create('permiso_usuario', function (Blueprint $table) {
+            $table->integer('usuario_id')->unsigned()->index();
+            $table->integer('permiso_id')->unsigned()->index();
 
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('permission_id')->references('id')->on('permissions')->onDelete('cascade');
-            $table->primary(['user_id', 'permission_id']);
+            $table->foreign('usuario_id')->references('id')->on('usuario')->onDelete('cascade');
+            $table->foreign('permiso_id')->references('id')->on('permiso')->onDelete('cascade');
+            $table->primary(['usuario_id', 'permiso_id']);
         });
 
     }
@@ -72,10 +72,10 @@ class CreatePermisologiaTables extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_permissions');
-        Schema::dropIfExists('permission_role');
-        Schema::dropIfExists('permissions');
-        Schema::dropIfExists('role_user');
-        Schema::dropIfExists('roles');
+        Schema::dropIfExists('permiso_usuario');
+        Schema::dropIfExists('permiso_rol');
+        Schema::dropIfExists('permiso');
+        Schema::dropIfExists('rol_usuario');
+        Schema::dropIfExists('rol');
     }
 }

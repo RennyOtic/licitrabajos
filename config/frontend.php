@@ -32,8 +32,8 @@ return [
     | Menu Logos
     |--------------------------------------------------------------------------
     */
-    'logo_lg'   => '<b>Admin</b>LTE',
-    'logo_mini' => '<b>A</b>LTE',
+    'logo_lg'   => '<b>L</b>ici<b>T</b>rabajos',
+    'logo_mini' => '<b>L</b>ici',
 
     /*
     |--------------------------------------------------------------------------
@@ -73,5 +73,5 @@ return [
     |
     */
 
-    'theme' => 'skin-blue',
+    'theme' => 'skin-black-light',
 ];

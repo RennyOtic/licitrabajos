@@ -31,12 +31,12 @@ Route::group(['namespace' => 'Auth'], function () {
 Route::post('app', 'RouteController@dataForTemplate');
 
 /**
- * Requieren autentificación.
+ * Requieren autentificación y que sean por AJAX.
  */
-Route::group(['middleware' => 'auth'], function () {
+Route::group(['middleware' => ['auth', 'onlyAjax']], function () {
 
     /**
-     * Admin, Acceso para usuarios con privilegios.
+     * Admin, Acceso para módulos de configuración.
      * "/admin/*"
      */
     Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'as' => 'admin::'], function () {
@@ -44,7 +44,6 @@ Route::group(['middleware' => 'auth'], function () {
         // Users Routes...
         Route::resource('users', 'UsersController')->except(['create', 'edit']);
         Route::post('get-data-users', 'UsersController@dataForRegister');
-        Route::get('init-session-user/{id}', 'UsersController@initWithOneUser');
 
         // Roles Routes...
         Route::resource('roles', 'RolesController')->except(['create', 'edit']);
@@ -52,8 +51,6 @@ Route::group(['middleware' => 'auth'], function () {
 
         // Permissions Routes...
         Route::resource('permissions', 'PermissionsController')->only(['index', 'show', 'update']);
-
-        Route::match(['post', 'get'], 'change-module-user', 'UsersController@changeModule');
 
     });
 
@@ -65,6 +62,20 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::post('admin/app', 'RouteController@canPermission');
 
+});
+
+/**
+ * Requieren autentificación.
+ */
+Route::group(['middleware' => 'auth'], function () {
+
+    /**
+     * Admin, Acceso para módulos de configuración.
+     * "/admin/*"
+     */
+    Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'as' => 'admin::'], function () {
+        Route::get('init-session-user/{id}', 'UsersController@initWithOneUser');
+    });
 });
 
 Route::get('{any?}', 'RouteController@index')->where('any', '.*');

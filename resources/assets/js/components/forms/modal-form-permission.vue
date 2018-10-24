@@ -1,54 +1,50 @@
 <template>
-  <div>
-    <v-modal id="permission-form">
+  <modal id="permission-form">
 
-      <h4 class="card-title" slot="modal-title">
-        <span class="glyphicon glyphicon-edit"></span>
-        {{ formData.title }}
-      </h4>
+    <h4 class="card-title" slot="modal-title">
+      <span class="glyphicon glyphicon-edit"></span>
+      {{ formData.title }}
+    </h4>
 
-      <template slot="modal-body">
-        <div class="row justify-content-center">
-          <div class="col-md-10 col-md-offset-1">
-            <form id="PermissionsForm" class="form-horizontal" @keyup.enter="registrar">
+    <template slot="modal-body">
+      <div class="row justify-content-center">
+        <div class="col-md-10 col-md-offset-1">
+          <form @keyup.enter="registrar">
 
-              <spinner v-if="!formData.ready"></spinner>
-              <div v-else>
-                <template v-for="input in entries">
-                  <v-input :name="input" required="true"
-                          :readonly="input.readonly"
-                          v-model="formData.permission[input.id]"
-                          :msg="msg[input.id]"
-                          @input="formData.permission[input.id] = arguments[0]">
-                  </v-input>
-                </template>
+            <spinner v-if="!formData.ready"></spinner>
+            <div v-else>
+              <template v-for="input in entries">
+                <rs-input :input="input"
+                v-model="formData.data[input.id]"
+                :msg="msg[input.id]"
+                @input="formData.data[input.id] = arguments[0]"></rs-input>
+              </template>
 
-                <div class="form-group">
-                  <label for="deleted_at" class="control-label">
-                    <span class="glyphicon glyphicon-inbox"></span> Activo:
-                  </label>
-                  <select id="deleted_at" required="true" class="form-control" v-model="formData.permission.deleted_at">
-                    <option :value="false">Activo</option>
-                    <option :value="true">Inactivo</option>
-                  </select>
-                  <small id="deleted_atHelp" class="form-text text-muted">
-                    <span v-text="msg.deleted_at"></span>
-                  </small>
-                </div>
+              <div class="form-group">
+                <label for="activo" class="control-label">
+                  <span class="glyphicon glyphicon-inbox"></span> Activo:
+                </label>
+                <select id="activo" required="true" class="form-control" v-model="formData.data.activo">
+                  <option :value="false">Activo</option>
+                  <option :value="true">Inactivo</option>
+                </select>
+                <small id="activoHelp" class="form-text text-muted">
+                  <span v-text="msg.activo"></span>
+                </small>
               </div>
+            </div>
 
-            </form>
-          </div>
+          </form>
         </div>
-      </template>
+      </div>
+    </template>
 
-      <template slot="modal-btn">
-        <button type="button" class="btn btn-default" data-dismiss="modal"><span class="fa fa-close"></span> Cerrar</button>
-        <button type="button" class="btn btn-primary" @click="registrar"><span class="glyphicon glyphicon-saved"></span> Guardar</button>
-      </template>
+    <template slot="modal-btn">
+      <button type="button" class="btn btn-default" data-dismiss="modal"><span class="fa fa-close"></span> Cerrar</button>
+      <button type="button" class="btn btn-primary" @click="registrar"><span class="glyphicon glyphicon-saved"></span> Guardar</button>
+    </template>
 
-    </v-modal>
-  </div>
+  </modal>
 </template>
 
 <script>
@@ -58,24 +54,20 @@
   export default {
     name: 'modal-form-permission',
     components: {
-      'v-modal': Modal,
-      'v-input': Input
+      'modal': Modal,
+      'rs-input': Input
     },
     props: ['formData'],
     data () {
       return {
         msg: {
-          name: 'Nombre del Permiso.',
-          module: 'Modulo a ejecutarse.',
-          action: 'Acción a Realizar.',
-          description: 'Descripción a realizar.',
-          deleted_at: 'Activar o Inactivar permiso.'
+          nombre: 'Nombre del Permiso.',
+          descripcion: 'Descripción a realizar.',
+          activo: 'Activar o Inactivar permiso.'
         },
         entries: [
-          {label: 'Módulo', id: 'module', icon: 'edit', readonly: true},
-          {label: 'Acción', id: 'action', icon: 'edit', readonly: true},
-          {label: 'Nombre', id: 'name', icon: 'edit'},
-          {label: 'Descripción', id: 'description', icon: 'edit'},
+        {label: 'Nombre', id: 'nombre', icon: 'edit'},
+        {label: 'Descripción', id: 'descripcion', icon: 'edit'},
         ]
       };
     },
@@ -83,11 +75,11 @@
       registrar: function () {
         this.restoreMsg(this.msg);
         if (this.formData.cond === 'edit') {
-          axios.put(this.formData.url, this.formData.permission)
+          axios.put(this.formData.url, this.formData.data)
           .then(response => {
-            toastr.success('Permiso Editado');
-            $('#permission-form').modal('toggle');
+            toastr.success('Registro Actualizado');
             this.$emit('input');
+            $('#permission-form').modal('hide');
           });
         }
       }

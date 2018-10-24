@@ -24,13 +24,12 @@ class UserUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'email'     => 'required|email|min:8|max:35|unique1:users|DomainValid',
-            'last_name' => 'required|alfa_space|min:3|max:15',
-            'module_id' => 'required|numeric',
-            'name'      => 'required|alfa_space|min:3|max:15',
-            'num_id'    => 'required|numeric|digits_between:6,8|exr_ced|unique1:users',
-            'password'  => 'nullable|string|min:6|max:20|confirmed',
-            'roles'     => 'required|array|max:2'
+            'correo' => 'required|email|min:8|max:35|unique1:usuario',
+            'apellido' => 'required|alpha_space|min:3|max:15',
+            'nombre' => 'required|alpha_space|min:3|max:15',
+            'identificacion' => 'required|numeric|digits_between:6,8|exr_ced|unique1:usuario',
+            'password' => 'nullable|string|min:6|max:20|confirmed',
+            'roles' => 'required|array|min:1|max:2'
         ];
     }
 
@@ -41,13 +40,6 @@ class UserUpdateRequest extends FormRequest
      */
     public function attributes()
     {
-        return [
-            'email'     => 'correo',
-            'last_name' => 'apellido',
-            'module_id' => 'modulo',
-            'name'      => 'nombre',
-            'num_id'    => 'cedula',
-            'password'  => 'contraseña'
-        ];
+        return ['password' => 'contraseña', 'identificacion' => 'identificación'];
     }
 }

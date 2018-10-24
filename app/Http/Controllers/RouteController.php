@@ -28,7 +28,7 @@ class RouteController extends Controller
      */
     public function dataForTemplate()
     {
-        if (! \Auth::check()) return response()->json();
+        if (! \Auth::check()) return;
 
         if (request()->rs == 'ras') {
             $user = \Auth::user();

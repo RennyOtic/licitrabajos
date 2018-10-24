@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Permisologia\ { Role, Permission };
+use App\Models\Permisologia\ { Rol, Permiso };
 use App\Http\Requests\ { RolStoreRequest, RolUpdateRequest };
 
 class RolesController extends Controller
@@ -12,8 +12,7 @@ class RolesController extends Controller
 
     public function __construct()
     {
-        $this->middleware('onlyAjax');
-        $this->middleware('can:rol,index')->only(['index']);
+        $this->middleware('can:rol,index')->only(['index', 'dataForRegister']);
         $this->middleware('can:rol,show')->only(['show']);
         $this->middleware('can:rol,destroy')->only(['destroy']);
     }
@@ -26,9 +25,14 @@ class RolesController extends Controller
      */
     public function index(Request $request)
     {
-        $roles = Role::dataForPaginate();
-        $roles->each(function ($r) {
-            $r->hours = $r->from_at . ' - ' . $r->to_at;
+        $roles = Rol::dataForPaginate(['*'], function ($r) {
+            $r->especial = ($r->especial) ? 
+            '<i class="glyphicon glyphicon-check"></i>' : 
+            '<i class="glyphicon glyphicon-unchecked"></i>';
+            $r->hours = 'Siempre';
+            if ($r->from_at && $r->to_at) {
+                $r->hours = $r->from_at . ' - ' . $r->to_at;
+            }
         });
         return $this->dataWithPagination($roles);
     }
@@ -41,14 +45,10 @@ class RolesController extends Controller
      */
     public function store(RolStoreRequest $request)
     {
-        $rol = Role::create($request->validated());
-        if (!$request->special) {
-            $rol->update_pivot($request->permissions, 'permissions')
-                ->assignPermissionsAllUser()
-                ;
-            $rol->permissions()->attach($request->special);
-            $rol->update_pivot($request->permissions, 'permissions', 'permission_id');
-            $rol->assignPermissionsAllUser();
+        $rol = Rol::create($request->validated());
+        if (!$request->especial) {
+            $rol->update_pivot($request->permisos, 'permisos', 'permiso_id')
+            ->assignPermissionsAllUser();
         }
         return response()->json($rol);
     }
@@ -61,8 +61,10 @@ class RolesController extends Controller
      */
     public function show($id)
     {
-        $rol = Role::findOrFail($id);
-        $rol->permissions;
+        $rol = Rol::findOrFail($id);
+        $permisos = $rol->permisos->pluck('id');
+        unset($rol->permisos);
+        $rol->permisos = $permisos;
         return response()->json($rol);
     }
 
@@ -75,13 +77,13 @@ class RolesController extends Controller
      */
     public function update(RolUpdateRequest $request, $id)
     {
-        if($request->id == 1) return response(['errors' => 'Error al modificar Rol'], 422);
-        $rol = Role::findOrFail($id)->fill($request->validated());
-        if(!$request->special) {
-            $rol->update_pivot($request->permissions, 'permissions', 'id')
-                ->assignPermissionsAllUser();
+        if($id == 1) return response(['msg' => 'Error al modificar Rol'], 401);
+        $rol = Rol::findOrFail($id)->fill($request->validated());
+        if(!$request->especial) {
+            $rol->update_pivot($request->permisos, 'permisos', 'id')
+            ->assignPermissionsAllUser() ;
         } else {
-            $rol->permissions()->detach($request->permissions);
+            $rol->permisos()->detach($request->permisos);
         }
         return response()->json($rol->save());
     }
@@ -95,8 +97,9 @@ class RolesController extends Controller
     public function destroy($id)
     {
         if($id == 1) return response(['msg' => 'Error al modificar usuario'], 422);
-        $rol = Role::findOrFail($id)->delete();
-        return response()->json($rol);
+        $rol = Rol::findOrFail($id);
+        $rol->usuarios()->detach($rol->usuarios->pluck('id'));
+        $rol->delete();
     }
 
     /**
@@ -106,8 +109,8 @@ class RolesController extends Controller
      */
     public function dataForRegister()
     {
-        $permissions = Permission::select('name', 'id', 'module', 'action')->get();
-        return response()->json(compact(['permissions']));
+        $permissions = Permiso::get(['id', 'nombre', 'modulo']);
+        return response()->json(compact('permissions'));
     }
 
 }

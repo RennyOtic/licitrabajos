@@ -24,8 +24,8 @@ class PermissionUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'description' => 'required|min:5|max:50',
-            'name' => 'required|min:3|max:25'
+            'descripcion' => 'required|min:5|max:50',
+            'nombre' => 'required|min:3|max:25'
         ];
     }
 
@@ -36,9 +36,6 @@ class PermissionUpdateRequest extends FormRequest
      */
     public function attributes()
     {
-        return [
-            'description' => 'descripción',
-            'name' => 'nombre',
-        ];
+        return [];
     }
 }

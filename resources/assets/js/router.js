@@ -57,21 +57,47 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
 	let permission = to.name;
 	if (to.path == '/') {next(); return;}
-
+	if (to.path == '/dashboard') {next(); return;}
 	if (location.href.indexOf('/login') > 0) return;
 	if (location.href.indexOf('/registro') > 0) return;
-
-	if (permission == undefined) permission = 'error';
-	axios.post('/admin/app', {p: permission})
-	.then(response => {
-		if (response.data) {next(); return;}
-		next(false);
-	});
+	if (permission == undefined) {next('error'); return;}
+	if (to.path.indexOf('.jpg') > 0 ||
+		to.path.indexOf('.jpeg') > 0 ||
+		to.path.indexOf('.png') > 0 ||
+		to.path.indexOf('.ttf') > 0 ||
+		to.path.indexOf('.min') > 0 ||
+		to.path.indexOf('.css') > 0) {
+		next('/');
+		return;
+	}
+	setTimeout(() => {
+		if (this.a.app.can(permission)) {
+			next(); return;
+		} else if (permission.indexOf('-') != -1) {
+			let split = permission.split('-');
+			for(let i in split) {
+				if (split[i].indexOf('.index') != -1) {
+					if (this.a.app.can(split[i])) {
+						next(); return;
+					}
+				} else {
+					if (this.a.app.can(split[i] + '.index')) {
+						next(); return;
+					}
+				}
+			}
+		}
+		axios.post('/admin/app', {p: permission})
+		.then(response => {
+			if (response.data) {next(); return;}
+			next(false);
+		});
+	}, 10);
 });
+
 router.afterEach((to, from, next) => {
 	setTimeout(function () {
 		$('[data-tool="tooltip"]').tooltip();
 	}, 1000);
 });
-
 export default router;

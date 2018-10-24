@@ -24,25 +24,10 @@ class UpdatePerfilUserRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => 'required|email|DomainValid|unique1:users,email',
-            'last_name' => 'required|alfa_space|min:3|max:20',
-            'name' => 'required|alfa_space|min:3|max:20',
-            'num_id' => 'required|numeric|exr_ced|unique1:users,num_id'
-        ];
-    }
-
-    /**
-     * Translate name of atributes.
-     *
-     * @return array
-     */
-    public function attributes()
-    {
-        return [
-            'email' => 'correo',
-            'last_name' => 'apellido',
-            'name' => 'nombre',
-            'num_id' => 'cédula'
+            'correo' => 'required|email|unique1:usuario,email',
+            'apellido' => 'required|alpha_space|min:3|max:20',
+            'nombre' => 'required|alpha_space|min:3|max:20',
+            'identificacion' => 'required|numeric|exr_ced|unique1:usuario,num_id'
         ];
     }
 }

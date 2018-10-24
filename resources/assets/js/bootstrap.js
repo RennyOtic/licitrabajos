@@ -81,8 +81,8 @@ axios.interceptors.response.use(function (response) {
 		toastr.warning('Error en el servidor');
 	}
 	if (errors.status == 401) {
-		toastr.warning(errors.data.message);
-		setTimeout(function () {console.clear();},100);
+		toastr.error(errors.data.msg);
+		setTimeout(function(){console.clear();},100);
 	}
 	if (errors.status == 422) {
 		$('button, input').removeAttr('disabled')

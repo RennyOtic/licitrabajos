@@ -9,27 +9,26 @@
             <div class="login-logo">
                 {!! config('frontend.logo_lg') !!}
             </div>
-            {{-- /.login-logo --}}
             <div class="login-box-body">
                 <p class="login-box-msg">Ingresa para comenzar tu sesión.</p>
 
                 <form action="{{ route('login') }}" method="post">
                     @csrf
 
-                    <div class="form-group has-feedback {{ $errors->has('email') ? 'has-error' : '' }}">
-                        <label for="email" class="control-label">Correo:</label>
-                        <input id="email" type="email" class="form-control" name="email"  placeholder="Email" value="root@sahum.gob.ve" required autofocus> {{-- {{ old('email') }} --}}
+                    <div class="form-group has-feedback {{ $errors->has('correo') ? 'has-error' : '' }}">
+                        <label for="correo" class="control-label">Correo:</label>
+                        <input id="correo" type="email" class="form-control" name="correo"  placeholder="Email" value="@if(env('APP_ENV') == 'local'){{ 'root@licitrabajos.com' }}@else{{ old('correo') }}@endif" required autofocus>
                         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
-                        @if ($errors->has('email'))
+                        @if ($errors->has('correo'))
                         <span class="help-block">
-                            <strong>{{ $errors->first('email') }}</strong>
+                            <strong>{{ $errors->first('correo') }}</strong>
                         </span>
                         @endif
                     </div>
 
                     <div class="form-group {{ $errors->has('password') ? 'has-error' : '' }} has-feedback">
                         <label for="password" class="control-label">Contraseña:</label>
-                        <input id="password" type="password" class="form-control" name="password"  placeholder="Contraseña" value="secret" required>
+                        <input id="password" type="password" class="form-control" name="password"  placeholder="Contraseña" value="@if(env('APP_ENV')=='local'){{ 'secret' }}@endif" required>
                         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                         @if ($errors->has('password'))
                         <span class="help-block">
@@ -54,15 +53,6 @@
                     </div>
                 </form>
 
-{{--                 <div class="social-auth-links text-center">
-                    <p>- OR -</p>
-                    <a href="#" class="btn btn-block btn-social btn-facebook btn-flat"><i class="fa fa-facebook"></i> Sign in using
-                    Facebook</a>
-                    <a href="#" class="btn btn-block btn-social btn-google btn-flat"><i class="fa fa-google-plus"></i> Sign in using
-                    Google+</a>
-                </div>
-                <!-- /.social-auth-links --> --}}
-
                 {{-- <a class="btn btn-link" href="{{ route('password.request') }}"> Forgot Your Password? </a> --}}
                 {{-- <a href="#">Olvidé mi contraseña.</a><br> --}}
                 @if(config('frontend.registration_open'))
@@ -70,9 +60,7 @@
                 @endif
 
             </div>
-            <!-- /.login-box-body -->
         </div>
-        <!-- /.login-box -->
     </div>
 </body>
 @endsection

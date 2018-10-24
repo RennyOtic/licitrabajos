@@ -13,7 +13,7 @@ use Faker\Generator as Faker;
 |
 */
 
-$factory->define(App\User::class, function (Faker $faker) {
+$factory->define(App\Usuario::class, function (Faker $faker) {
 	$emails = [
 		'@sahum.gob.ve',
 		'@gmail.com',
@@ -25,24 +25,22 @@ $factory->define(App\User::class, function (Faker $faker) {
 	$name = $faker->firstName;
 	$user = $faker->bothify($name.'#?##?');
 	return [
-		'name' => $name,
-		'last_name' => $faker->lastName,
-		'num_id' => rand(500000, 50000000),
-		'email' => $user.$emails[rand(0, 5)],
+		'nombre' => $name,
+		'apellido' => $faker->lastName,
+		'identificacion' => rand(500000, 50000000),
+		'correo' => $user . $emails[rand(0, 5)],
 		'password' => bcrypt('secret'),
-		'remember_token' => str_random(10),
-		'module_id' => rand(1, 3)
 	];
 });
 
-$factory->define(App\Models\Permisologia\Role::class, function (Faker $faker) {
+$factory->define(App\Models\Permisologia\Rol::class, function (Faker $faker) {
 	$rol = $faker->numerify('Rol ####');
 	return [
-		'name' => $rol,
+		'nombre' => $rol,
 		'slug' => $rol,
-		'description' => 'Rol de prueba',
-		'from_at' => \Carbon\Carbon::parse('08:00:00'),
-		'to_at' => \Carbon\Carbon::parse('17:00:00'),
-		'special' => null
+		'descripcion' => 'Rol de prueba',
+		'desde_at' => \Carbon\Carbon::parse('08:00:00'),
+		'hasta_at' => \Carbon\Carbon::parse('17:00:00'),
+		'especial' => null
 	];
 });

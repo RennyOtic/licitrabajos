@@ -5,18 +5,16 @@
 				<div class="box box-primary">
 					<div class="box-header"><b>{{ module }}.</b></div>
 					<div class="box-body" style="font-size: 16px;">
-						<table>
+						<table class="table table-hover">
 							<tbody>
-								<tr class="form-inline"
-									v-for="(p, key, index) in permissions"
-									v-if="p.module == keym">
-									<td :for="'perm' + p.id" style="font-size:13px;">
-										<label :for="'perm' + p.id" class="control-label" style="color:black;font-size:13px;">
-											{{ p.name }}:
+								<tr class="form-inline" v-for="(p, key, index) in permissions" v-if="p.modulo == keym">
+									<td style="font-size:13px;">
+										<label :for="'perm' + p.id" class="control-label">
+											{{ p.nombre }}:
 										</label>
 									</td>
 									<td>
-										<input :id="'perm' + p.id" style="margin: 9px 0 0 5px" type="checkbox" :value="p.id" v-model="permissionsRol" @change="update" :rs="p.action">
+										<input :id="'perm' + p.id" style="margin: 9px 0 0 5px" type="checkbox" :value="p.id" v-model="permissionsRol">
 									</td>
 								</tr>
 							</tbody>
@@ -25,39 +23,35 @@
 				</div>
 			</div>
 		</template>
-		<pre v-show="false">{{user}}</pre>
 	</div>
 </template>
 
 <script>
-export default {
-	name: 'checkbox-permissions',
-	props: ['user'],
-	data () {
-		return {
-			permissionsRol: this.user,
-			permissions: [],
-			modules: {
-				'rol': 'Roles',
-				'permission': 'Permisos',
-				'user': 'Usuarios',
-				'module': 'Modulos',
+	export default {
+		name: 'checkbox-permissions',
+		props: ['user'],
+		data () {
+			return {
+				permissionsRol: this.user,
+				permissions: [],
+				modules: {
+					'user': 'Usuarios',
+					'rol': 'Roles',
+					'permission': 'Permisos',
+				},
+			};
+		},
+		watch: {
+			permissionsRol: function (val) {
+				this.$emit('check', val);
 			},
-		};
-	},
-	updated: function () {
-		this.permissionsRol = this.user;
-	},
-	mounted: function () {
-		axios.post('/admin/get-data-roles')
-		.then(response => {
-			this.permissions = response.data.permissions;
-		});
-	},
-	methods: {
-		update: function () {
-			this.$emit('check', this.permissionsRol);
+			user: function (val) {
+				this.permissionsRol = val;
+			}
+		},
+		mounted: function () {
+			axios.post('/admin/get-data-roles')
+			.then(response => {this.permissions = response.data.permissions;});
 		}
 	}
-}
 </script>

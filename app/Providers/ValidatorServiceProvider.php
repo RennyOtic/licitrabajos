@@ -75,10 +75,10 @@ class ValidatorServiceProvider extends ServiceProvider
         /**
          * Verifiva el campo solo tenga letras y espacios.
          */
-        Validator::extend('alfa_space', function($attribute, $value)
+        Validator::extend('alpha_space', function($attribute, $value)
         {
             if ($value[0] == '') return false;
-            return preg_match('/.([a-zA-Z])$/', $value);
+            return preg_match('/.([a-zA-Z ])$/', $value);
             return false;
         }, 'No debe poseer caracteres especiales ni números.');
 

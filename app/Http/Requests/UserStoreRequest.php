@@ -24,13 +24,12 @@ class UserStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'email'     => 'required|email|min:8|max:35|unique:users|DomainValid',
-            'last_name' => 'required|alfa_space|min:3|max:15',
-            'module_id' => 'required|numeric',
-            'name'      => 'required|alfa_space|min:3|max:15',
-            'num_id'    => 'required|numeric|digits_between:6,8|exr_ced|unique:users',
-            'password'  => 'required|string|min:6|max:20|confirmed',
-            'roles'     => 'nullable|array|max:2'
+            'correo' => 'required|email|min:8|max:35|unique:usuario',
+            'apellido' => 'required|alpha_space|min:3|max:15',
+            'nombre' => 'required|alpha_space|min:3|max:15',
+            'identificacion' => 'required|numeric|digits_between:6,8|exr_ced|unique:usuario',
+            'password' => 'required|string|min:6|max:20|confirmed',
+            'roles' => 'nullable|array|min:1|max:2'
         ];
     }
 
@@ -41,7 +40,7 @@ class UserStoreRequest extends FormRequest
      */
     public function messages()
     {
-        return ['email.required' => 'El campo :attribute es requerido.'];
+        return ['correo.required' => 'El campo :attribute es requerido.'];
     }
 
     /**
@@ -51,14 +50,6 @@ class UserStoreRequest extends FormRequest
      */
     public function attributes()
     {
-        return [
-            'email'     => 'correo',
-            'last_name' => 'apellido',
-            'module_id' => 'módulo',
-            'name'      => 'nombre',
-            'num_id'    => 'cédula',
-            'password'  => 'contraseña',
-            'roles'     => 'roles'
-        ];
+        return ['password' => 'contraseña', 'identificacion' => 'identificación'];
     }
 }

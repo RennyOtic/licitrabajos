@@ -29,10 +29,10 @@ class CheckPermisologia
 
         if ($user->canActMod($module, $action)) return $next($request);
 
-        // Auth::logout();
+        return Auth::logout();
 
         // return redirect()->to('/');
-        return abort(401, 'No posee acceso.');
+        // return abort(401, 'No posee acceso.');
         // return response('Unauthorized.', 401);
     }
 }

@@ -12,13 +12,12 @@ class ClearTablesSeeder extends Seeder
     public function run()
     {
         DB::statement('SET FOREIGN_KEY_CHECKS = 0;');
-        DB::table('users')->truncate();
-        DB::table('modules')->truncate();
-        DB::table('roles')->truncate();
-        DB::table('role_user')->truncate();
-        DB::table('permissions')->truncate();
-        DB::table('permission_role')->truncate();
-        DB::table('permission_user')->truncate();
+        DB::table('usuario')->truncate();
+        DB::table('rol')->truncate();
+        DB::table('rol_usuario')->truncate();
+        DB::table('permiso')->truncate();
+        DB::table('permiso_rol')->truncate();
+        DB::table('permiso_usuario')->truncate();
         DB::statement('SET FOREIGN_KEY_CHECKS = 1;');
     }
 }

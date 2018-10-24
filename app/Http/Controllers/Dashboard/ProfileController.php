@@ -21,7 +21,6 @@ class ProfileController extends Controller
         $user->fullName = $user->fullName();
         $user->logoPath = $user->getLogoPath();
         $user->roles;
-        $user->module;
         return response()->json($user);
     }
 
@@ -35,9 +34,8 @@ class ProfileController extends Controller
         $user = \Auth::user()->update($request->validated());
         if ($request->hasFile('image')) {
             $extension = $request->image->getClientOriginalExtension();
-            $url = $request->image->storeAs('users/image', \Auth::user()->id.'.'.$extension);
+            $request->image->storeAs('users/image', \Auth::user()->id.'.'.$extension);
         }
-        return response()->json($user);
     }
 
     /**

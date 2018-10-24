@@ -2,7 +2,7 @@
 
 namespace App\Traits;
 
-use App\Models\Permisologia\Role;
+use App\Models\Permisologia\Rol;
 
 trait ModelsTrait
 {
@@ -22,7 +22,7 @@ trait ModelsTrait
 				return asset('storage\users\image\\') . \Auth::user()->id . '.' . $e;
 			}
 		}
-		return "/adminlte/img/icon-avatar-default.png";
+		return "\adminlte\img\icon-avatar-default.png";
 	}
 
 	/**
@@ -32,8 +32,8 @@ trait ModelsTrait
 	 */
 	public function fullName()
 	{
-		$name = explode(' ', $this->name);
-		$last_name = explode(' ', $this->last_name);
+		$name = explode(' ', $this->nombre);
+		$last_name = explode(' ', $this->apellido);
 		return ucfirst($name[0]) . ' ' . ucfirst($last_name[0]);
 	}
 
@@ -46,10 +46,10 @@ trait ModelsTrait
 	{
 		$permissions = [];
 		foreach ($roles as $rol) {
-			$permissionsOfRol = Role::findOrFail($rol)->permissions->pluck('id')->toArray();
+			$permissionsOfRol = Rol::findOrFail($rol)->permisos->pluck('id')->toArray();
 			$permissions = array_merge($permissions, $permissionsOfRol);
 		}
-		return $this->update_pivot(array_unique($permissions), 'permissions', 'permission_id');
+		return $this->update_pivot(array_unique($permissions), 'permisos', 'permiso_id');
 	}
 
 	/**
@@ -59,14 +59,14 @@ trait ModelsTrait
 	 */
 	public function permissionsOfUser()
 	{
-		if ($this->id == 1) return 'all-access';
-		foreach ($this->roles as $rol) {
-			if ($rol->special == 'all-access') return $rol->special;
-			if ($rol->special == 'no-access') return [];
-		}
+		// if ($this->id == 1) return 'all-access';
+		// foreach ($this->roles as $rol) {
+		// 	if ($rol->special == 'all-access') return $rol->special;
+		// 	if ($rol->special == 'no-access') return [];
+		// }
 		$all = [];
-		foreach ($this->permissions as $p) {
-			$all[] = $p->module . '.' . $p->action;
+		foreach ($this->permisos as $p) {
+			$all[] = $p->modulo . '.' . $p->accion;
 		}
 		return $all;
 	}
@@ -93,9 +93,9 @@ trait ModelsTrait
 	 */
 	public function assignPermissionsAllUser()
 	{
-		$permissions = $this->permissions->pluck('id')->toArray();
-		foreach ($this->users as $user) {
-			$user->update_pivot($permissions, 'permissions', 'permission_id');
+		$permisos = $this->permisos->pluck('id')->toArray();
+		foreach ($this->usuarios as $user) {
+			$user->update_pivot($permisos, 'permisos', 'permiso_id');
 		}
 		return $this;
 	}
@@ -105,11 +105,16 @@ trait ModelsTrait
 	 * @model All
 	 * @return Object
 	 */
-	public static function dataForPaginate()
+	public static function dataForPaginate($select = ['*'], $changes = null)
 	{
-		return Self::orderBy(request()->order?:'id', request()->dir?:'DESC')
+		$data = Self::orderBy(request()->order?:(($select == ['*']) ? 'id' : $select[0]), request()->dir?:'ASC')
 		->search(request()->search)
+		->select($select)
 		->paginate(request()->num?:10);
+
+		if ($changes != null) $data->each(function ($d) use ($changes) {$changes($d); });
+
+		return $data;
 	}
 
 	/**

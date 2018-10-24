@@ -24,13 +24,13 @@ class RolStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'description' => 'nullable|string',
-            'from_at' => 'nullable|hour_corret',
-            'name' => 'required|min:3|max:25',
-            'permissions' => 'nullable|array',
-            'slug' => 'required|min:3|max:25|unique:roles',
-            'special' => 'required_without:permissions',
-            'to_at' => 'nullable|hour_corret'
+            'descripcion' => 'nullable|string',
+            'desde_at' => 'nullable|hour_corret',
+            'nombre' => 'required|min:3|max:25',
+            'permisos' => 'nullable|array',
+            'slug' => 'required|min:3|max:25|unique:rol',
+            'especial' => 'required_without:permisos',
+            'hasta_at' => 'nullable|hour_corret'
         ];
     }
 
@@ -42,13 +42,13 @@ class RolStoreRequest extends FormRequest
     public function attributes()
     {
         return [
-            'description' => 'descripción',
-            'from_at' => 'desde',
-            'name' => 'nombre',
-            'permissions' => 'permisos',
+            'descripcion' => 'descripción',
+            'desde_at' => 'desde',
+            'nombre' => 'nombre',
+            'permisos' => 'permisos',
             'slug' => 'alias',
-            'special' => 'especial',
-            'to_at' => 'hasta'
+            'especial' => 'especial',
+            'hasta_at' => 'hasta'
         ];
     }
 }

@@ -1,11 +1,6 @@
 <template>
     <ul class="sidebar-menu" data-widget="tree">
         <li class="header">Menú de Navegación</li>
-        <li>
-            <router-link :to="{ name: 'dashboard' }">
-                <i class="fa fa-dashboard"></i> <span>Dashboard</span>
-            </router-link>
-        </li>
         <li class="treeview" v-if="can(['user.index','rol.index','permission.index'])">
             <a href="#">
                 <i class="fa fa-laptop"></i>
