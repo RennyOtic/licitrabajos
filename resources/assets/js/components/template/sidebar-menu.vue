@@ -27,6 +27,16 @@
                 </li>
             </ul>
         </li>
+        <li v-if="can('tender.index')">
+            <router-link :to="{ name: 'tender.index' }">
+                <i class="fa fa-dashboard"></i> <span>Licitaciones</span>
+            </router-link>
+        </li>
+        <li v-if="can('mytender.index')">
+            <router-link :to="{ name: 'tender.index' }">
+                <i class="fa fa-dashboard"></i> <span>Mis Licitaciones</span>
+            </router-link>
+        </li>
     </ul>
 </template>
 

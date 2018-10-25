@@ -56,6 +56,13 @@ class PermissionsSeeder extends Seeder
         	'descripcion' => 'Permiso para Iniciar sesion con otro usuario'
         ]);
 
+        App\Models\Permisologia\Permiso::create([
+            'nombre' => 'Permitir Servivicios',
+            'modulo' => 'user',
+            'accion' => 'service',
+            'descripcion' => 'Permiso para Permitir Agregar Servicios al usuario'
+        ]);
+
         /**
          * Permisos de Roles
          */
@@ -116,6 +123,44 @@ class PermissionsSeeder extends Seeder
         	'modulo' => 'permission',
         	'accion' => 'update',
         	'descripcion' => 'Permiso para Eliminar Permisos'
+        ]);
+
+        /**
+         * Permisos de Licitaciones
+         */
+        App\Models\Permisologia\Permiso::create([
+            'nombre' => 'Ver Licitaciones',
+            'modulo' => 'tender',
+            'accion' => 'index',
+            'descripcion' => 'Permiso para ver Licitaciones'
+        ]);
+
+        App\Models\Permisologia\Permiso::create([
+            'nombre' => 'Crear Licitacion',
+            'modulo' => 'tender',
+            'accion' => 'store',
+            'descripcion' => 'Permiso para registrar Licitacion'
+        ]);
+
+        App\Models\Permisologia\Permiso::create([
+            'nombre' => 'Ver Licitacion',
+            'modulo' => 'tender',
+            'accion' => 'show',
+            'descripcion' => 'Permiso para ver un Licitacion'
+        ]);
+
+        App\Models\Permisologia\Permiso::create([
+            'nombre' => 'Actualizar Licitacion',
+            'modulo' => 'tender',
+            'accion' => 'update',
+            'descripcion' => 'Permiso para actualizar Licitacion'
+        ]);
+
+        App\Models\Permisologia\Permiso::create([
+            'nombre' => 'Eliminar Licitacion',
+            'modulo' => 'tender',
+            'accion' => 'destroy',
+            'descripcion' => 'Permiso para Eliminar Licitacion'
         ]);
     }
 }

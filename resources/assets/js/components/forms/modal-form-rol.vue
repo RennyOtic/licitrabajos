@@ -15,7 +15,6 @@
             <rs-input :input="input"
             v-model="formData.data[input.id]"
             :msg="msg[input.id]"></rs-input>
-            <!-- @input="formData.data[input.id] = arguments[0]" -->
           </div>
 
           <div class="col-md-6">

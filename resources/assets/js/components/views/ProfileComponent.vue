@@ -55,6 +55,12 @@
                                     <input type="file" id="image" class="form-control" name="image" @change="getImage" accept="image/*">
                                 </div>
                             </div>
+                            <div class="form-group" v-if="can('user.service')">
+                                <label for="imagen" class="col-sm-2 control-label">Area Servicio:</label>
+                                <div class="col-sm-10">
+                                    <rs-multiselect v-model="user.servicios" :options="select2_options(services)" :multiple="true" :hide-selected="true" :close-on-select="false"></rs-multiselect>
+                                </div>
+                            </div>
                             <div class="form-group">
                                 <div class="col-sm-offset-2 col-sm-10">
                                     <button type="submit" class="btn btn-success"> Guardar</button>
@@ -99,9 +105,15 @@
 </template>
 
 <script>
+    import Multiselect from 'vue-multiselect';
+
     export default {
+        components: {
+            'rs-multiselect': Multiselect,
+        },
         data() {
             return {
+                services: [],
                 user: {
                     fullName: '',
                     image: '',
@@ -116,7 +128,8 @@
         created() {
             axios.get('profile')
             .then(response => {
-                this.user = response.data;
+                this.user = response.data.user;
+                this.services = response.data.servicio;
             });
         },
         methods: {
@@ -139,6 +152,7 @@
                 data.append('apellido', this.user.apellido);
                 data.append('correo', this.user.correo);
                 data.append('identificacion', this.user.identificacion);
+                data.append('servicios', this.select2_search(this.services, this.user.servicios));
 
                 axios.post('/update-user', data)
                 .then(response => {

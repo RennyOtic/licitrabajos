@@ -16,8 +16,7 @@
               <template v-for="input in entries">
                 <rs-input :input="input"
                 v-model="formData.data[input.id]"
-                :msg="msg[input.id]"
-                @input="formData.data[input.id] = arguments[0]"></rs-input>
+                :msg="msg[input.id]"></rs-input>
               </template>
 
               <div class="form-group">

@@ -1,0 +1,33 @@
+<template>
+	<div>
+		<div class="col-md-2">
+			<a href="#" style="width: 120px">
+				<img :src="(data.imagen !== null) ? data.imagen : '/images/39295.png'" :alt="data.nombre" class="img-responsive img-circle" style="width: inherit;">
+			</a>
+		</div>
+		<div class="col-md-8">
+			<a href="#">
+				<h3>{{ data.nombre }}. <small class="small">{{ data.desde }}.</small></h3>
+			</a>
+			<p v-text="data.descripcion"></p>
+			<p>
+				<a class="label label-primary" href="#">asd</a>
+				<a class="label label-primary" href="#">asd</a>
+			</p>
+		</div>
+		<div class="col-md-2 text-center">
+			<p>
+				<h4><b>${{ data.precio_minimo }} - ${{ data.precio_maximo }}</b></h4>
+			</p>
+			<p>0 ofertas</p>
+			<!-- <a href="#" class="btn btn btn-success">Ofertar Ahora</a> -->
+		</div>
+	</div>
+</template>
+
+<script>
+	export default {
+		name: 'licitacion',
+		props: ['data'],
+	}
+</script>

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User;
 use App\Http\Requests\ { ChangePasswordRequest, UpdatePerfilUserRequest };
+use App\Models\Servicio;
 
 class ProfileController extends Controller
 {
@@ -21,7 +22,11 @@ class ProfileController extends Controller
         $user->fullName = $user->fullName();
         $user->logoPath = $user->getLogoPath();
         $user->roles;
-        return response()->json($user);
+        $servicios = $user->servicios->pluck('nombre')->toArray();
+        unset($user->servicios);
+        $user->servicios = $servicios;
+        $servicio = Servicio::get(['id', 'nombre as text']);
+        return response()->json(compact('user', 'servicio'));
     }
 
     /**
@@ -31,6 +36,9 @@ class ProfileController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function editUser(UpdatePerfilUserRequest $request){
+        if ($request->servicios) {
+            \Auth::user()->update_pivot(explode(',', $request->servicios), 'servicios', 'servicio_id');
+        }
         $user = \Auth::user()->update($request->validated());
         if ($request->hasFile('image')) {
             $extension = $request->image->getClientOriginalExtension();

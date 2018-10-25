@@ -20,6 +20,11 @@ class CreateUsuariosTable extends Migration
             $table->integer('identificacion')->unsigned()->unique();
             $table->string('correo', 50)->unique();
             $table->string('password')->nullable();
+            $table->string('pais')->nullable();
+            $table->string('municipio')->nullable();
+            $table->string('sector')->nullable();
+            $table->string('calle_avenida')->nullable();
+            $table->string('codigo_postal')->nullable();
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

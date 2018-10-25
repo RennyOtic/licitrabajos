@@ -23,7 +23,12 @@ class Usuario extends Authenticatable
         'apellido',
         'identificacion',
         'correo',
-        'password'
+        'password',
+        'pais',
+        'municipio',
+        'sector',
+        'calle_avenida',
+        'codigo_postal',
     ];
 
     /**
@@ -61,5 +66,13 @@ class Usuario extends Authenticatable
     public function permisos()
     {
         return $this->belongsToMany(Models\Permisologia\Permiso::class);
+    }
+
+    /**
+     * Obtener los permisos que posee el usuario.
+     */
+    public function servicios()
+    {
+        return $this->belongsToMany(Models\Servicio::class);
     }
 }

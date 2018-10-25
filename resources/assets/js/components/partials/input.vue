@@ -9,7 +9,10 @@
         :type="(input.type) ? input.type : 'text'"
         :placeholder="input.label"
         :required="input.required"
+        :accept="input.accept"
         :value="value"
+        :min="input.min"
+        :max="input.max"
         :readonly="input.readonly"
         :disabled="input.disabled"
         @input="updateValue($event.target.value)">

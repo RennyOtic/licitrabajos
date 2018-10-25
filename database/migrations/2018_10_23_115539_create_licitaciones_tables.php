@@ -16,10 +16,14 @@ class CreateLicitacionesTables extends Migration
         Schema::create('servicio', function (Blueprint $table) {
             $table->increments('id');
             $table->string('nombre');
-            $table->unsignedInteger('usuario_id');
             $table->timestamps();
             $table->softDeletes();
+        });
+        Schema::create('servicio_usuario', function (Blueprint $table) {
+            $table->unsignedInteger('servicio_id');
+            $table->unsignedInteger('usuario_id');
 
+            $table->foreign('servicio_id')->references('id')->on('servicio')->onDelete('cascade');
             $table->foreign('usuario_id')->references('id')->on('usuario')->onDelete('cascade');
         });
         Schema::create('estatus', function (Blueprint $table) {
@@ -30,14 +34,15 @@ class CreateLicitacionesTables extends Migration
         });
         Schema::create('licitacion', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('imagen');
+            $table->string('imagen')->nullable();
             $table->string('nombre');
+            $table->string('slug');
             $table->text('descripcion');
             $table->unsignedInteger('status_id');
             $table->unsignedInteger('persona_id');
-            $table->unsignedInteger('empresa_id');
-            $table->unsignedInteger('costo_minimo');
-            $table->unsignedInteger('costo_maximo');
+            $table->unsignedInteger('empresa_id')->nullable();
+            $table->unsignedInteger('precio_minimo');
+            $table->unsignedInteger('precio_maximo');
             $table->unsignedInteger('tiempo');
             $table->timestamps();
             $table->softDeletes();

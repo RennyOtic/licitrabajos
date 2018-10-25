@@ -11,12 +11,13 @@
 					</thead>
 					<tbody>
 						<tr v-for="r in rows" @click="selectRow(r)">
-							<td v-for="column in columns" v-html="textColum(r, column)" :class="column.class"></td>
+							<td v-if="rs == 1" v-for="column in columns" v-html="textColum(r, column)" :class="column.class"></td>
+							<td v-if="rs == 2"><rs-item :data="r"></rs-item></td>
 						</tr>
 					</tbody>
 				</table>
+				<pagination :data="pagination" @change="get(arguments[0])"></pagination>
 			</div>
-			<pagination :data="pagination" @change="get(arguments[0])"></pagination>
 		</div>
 	</div>
 </template>
@@ -30,17 +31,29 @@ th span, tbody tr {
 <script>
 	import Pagination from './pagination.vue';
 	import HeaderTable from './header-table.vue';
+	import Item from './licitacion.vue';
 
 	export default {
 		name: 'v-table',
 		components: {
 			'pagination': Pagination,
-			'header-table': HeaderTable
+			'header-table': HeaderTable,
+			'rs-item': Item
 		},
+		// computed: {
+		// 	asd: function () {
+		// 		return this.rs;
+		// 	}
+		// },
 		props: {
 			uri: {},
 			columns: {},
 			id: {},
+			rs: {
+				default: function () {
+					return 1;
+				}
+			},
 			n: {
 				default: function () {
 					return [10,20,30];

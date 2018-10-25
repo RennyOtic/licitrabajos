@@ -54,6 +54,9 @@ Route::group(['middleware' => ['auth', 'onlyAjax']], function () {
 
     });
 
+    // Users Routes...
+    Route::resource('tenders', 'TendersController')->except(['create', 'edit']);
+
     Route::group(['prefix' => '/', 'namespace' => 'Dashboard', 'as' => 'Dashboard::'], function () {
         Route::get('profile', 'ProfileController@show');
         Route::post('change-pass', 'ProfileController@editPassword');

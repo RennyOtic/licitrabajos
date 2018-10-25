@@ -5,6 +5,8 @@ import Profile from './components/views/profileComponent.vue';
 import Users from './components/views/UsersComponent.vue';
 import Roles from './components/views/RolesComponent.vue';
 import Permissions from './components/views/PermissionsComponent.vue';
+import Tenders from './components/views/TendersComponent.vue';
+import Tenders_ from './components/views/Tenders_Component.vue';
 import NotFound from './components/views/NotFoundComponent.vue';
 
 const router = new VueRouter({
@@ -26,17 +28,17 @@ const router = new VueRouter({
 		component: {template: `<router-view></router-view>`},
 		children: [
 		{
-			path: 'usuarios',
+			path: '/usuarios',
 			name: 'user.index',
 			component: Users,
 		},
 		{
-			path: 'roles',
+			path: '/roles',
 			name: 'rol.index',
 			component: Roles,
 		},
 		{
-			path: 'permisos',
+			path: '/permisos',
 			name: 'permission.index',
 			component: Permissions,
 		},
@@ -47,6 +49,16 @@ const router = new VueRouter({
 		]
 	},
 	{ 
+		path: '/licitaciones', 
+		name: 'tender.index',
+		component: Tenders
+	},
+	{ 
+		path: '/mis-licitaciones', 
+		name: 'mytender.index',
+		component: Tenders_
+	},
+	{
 		path: '*', 
 		name: 'error',
 		component: NotFound
