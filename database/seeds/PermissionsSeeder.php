@@ -135,32 +135,108 @@ class PermissionsSeeder extends Seeder
             'descripcion' => 'Permiso para ver Licitaciones'
         ]);
 
+        // App\Models\Permisologia\Permiso::create([
+        //     'nombre' => 'Crear Licitacion',
+        //     'modulo' => 'tender',
+        //     'accion' => 'store',
+        //     'descripcion' => 'Permiso para registrar Licitacion'
+        // ]);
+
+        // App\Models\Permisologia\Permiso::create([
+        //     'nombre' => 'Ver Licitacion',
+        //     'modulo' => 'tender',
+        //     'accion' => 'show',
+        //     'descripcion' => 'Permiso para ver un Licitacion'
+        // ]);
+
+        // App\Models\Permisologia\Permiso::create([
+        //     'nombre' => 'Actualizar Licitacion',
+        //     'modulo' => 'tender',
+        //     'accion' => 'update',
+        //     'descripcion' => 'Permiso para actualizar Licitacion'
+        // ]);
+
+        // App\Models\Permisologia\Permiso::create([
+        //     'nombre' => 'Eliminar Licitacion',
+        //     'modulo' => 'tender',
+        //     'accion' => 'destroy',
+        //     'descripcion' => 'Permiso para Eliminar Licitacion'
+        // ]);
+
+        /**
+         * Permisos de Mis Licitaciones
+         */
         App\Models\Permisologia\Permiso::create([
-            'nombre' => 'Crear Licitacion',
-            'modulo' => 'tender',
-            'accion' => 'store',
-            'descripcion' => 'Permiso para registrar Licitacion'
+            'nombre' => 'Ver Mis Licitaciones',
+            'modulo' => 'mytender',
+            'accion' => 'index',
+            'descripcion' => 'Permiso para ver Mis Licitaciones'
         ]);
 
         App\Models\Permisologia\Permiso::create([
-            'nombre' => 'Ver Licitacion',
-            'modulo' => 'tender',
+            'nombre' => 'Crear Mis Licitacion',
+            'modulo' => 'mytender',
+            'accion' => 'store',
+            'descripcion' => 'Permiso para registrar Mi Licitacion'
+        ]);
+
+        App\Models\Permisologia\Permiso::create([
+            'nombre' => 'Ver Mi Licitacion',
+            'modulo' => 'mytender',
             'accion' => 'show',
-            'descripcion' => 'Permiso para ver un Licitacion'
+            'descripcion' => 'Permiso para ver Mi Licitacion'
         ]);
 
         App\Models\Permisologia\Permiso::create([
             'nombre' => 'Actualizar Licitacion',
-            'modulo' => 'tender',
+            'modulo' => 'mytender',
             'accion' => 'update',
-            'descripcion' => 'Permiso para actualizar Licitacion'
+            'descripcion' => 'Permiso para actualizar Mi Licitacion'
         ]);
 
         App\Models\Permisologia\Permiso::create([
             'nombre' => 'Eliminar Licitacion',
-            'modulo' => 'tender',
+            'modulo' => 'mytender',
             'accion' => 'destroy',
-            'descripcion' => 'Permiso para Eliminar Licitacion'
+            'descripcion' => 'Permiso para Eliminar Mi Licitacion'
         ]);
+
+        /**
+         * Permisos de Ofertas
+         */
+        App\Models\Permisologia\Permiso::create([
+            'nombre' => 'Ver Ofertas',
+            'modulo' => 'offer',
+            'accion' => 'index',
+            'descripcion' => 'Permiso para ver Ofertas'
+        ]);
+
+        App\Models\Permisologia\Permiso::create([
+            'nombre' => 'Crear Oferta',
+            'modulo' => 'offer',
+            'accion' => 'store',
+            'descripcion' => 'Permiso para registrar Oferta'
+        ]);
+
+        // App\Models\Permisologia\Permiso::create([
+        //     'nombre' => 'Ver Mi Licitacion',
+        //     'modulo' => 'offer',
+        //     'accion' => 'show',
+        //     'descripcion' => 'Permiso para ver Mi Licitacion'
+        // ]);
+
+        // App\Models\Permisologia\Permiso::create([
+        //     'nombre' => 'Actualizar Licitacion',
+        //     'modulo' => 'offer',
+        //     'accion' => 'update',
+        //     'descripcion' => 'Permiso para actualizar Mi Licitacion'
+        // ]);
+
+        // App\Models\Permisologia\Permiso::create([
+        //     'nombre' => 'Eliminar Licitacion',
+        //     'modulo' => 'offer',
+        //     'accion' => 'destroy',
+        //     'descripcion' => 'Permiso para Eliminar Mi Licitacion'
+        // ]);
     }
 }

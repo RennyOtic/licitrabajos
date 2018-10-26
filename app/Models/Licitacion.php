@@ -23,6 +23,7 @@ class Licitacion extends Model
         'status_id',
         'persona_id',
         'empresa_id',
+        'servicio_id',
         'tiempo',
         'imagen',
         'nombre',
@@ -38,4 +39,19 @@ class Licitacion extends Model
     protected $hidden = [
         'created_at' , 'updated_at', 'deleted_at'
     ];
+
+    public function status()
+    {
+        return $this->belongsTo(Estatus::class);
+    }
+
+    public function servicio()
+    {
+        return $this->belongsTo(Servicio::class);
+    }
+
+    public function ofertas()
+    {
+        return $this->hasMany(Oferta::class);
+    }
 }

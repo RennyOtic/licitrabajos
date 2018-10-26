@@ -34,6 +34,7 @@ Vue.mixin({
 				let isset = false;
 				for(let i in accion) {
 					isset = permissions.includes(accion[i]);
+					if (isset) return true;
 				}
 				return isset;
 			}

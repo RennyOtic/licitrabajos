@@ -6,7 +6,8 @@ import Users from './components/views/UsersComponent.vue';
 import Roles from './components/views/RolesComponent.vue';
 import Permissions from './components/views/PermissionsComponent.vue';
 import Tenders from './components/views/TendersComponent.vue';
-import Tenders_ from './components/views/Tenders_Component.vue';
+import Mytender from './components/views/MytenderComponent.vue';
+import Offer from './components/forms/form-offer.vue';
 import NotFound from './components/views/NotFoundComponent.vue';
 
 const router = new VueRouter({
@@ -56,7 +57,12 @@ const router = new VueRouter({
 	{ 
 		path: '/mis-licitaciones', 
 		name: 'mytender.index',
-		component: Tenders_
+		component: Mytender
+	},
+	{ 
+		path: '/oferta/:id', 
+		name: 'offer.store',
+		component: Offer
 	},
 	{
 		path: '*', 

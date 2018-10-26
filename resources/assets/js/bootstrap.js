@@ -91,8 +91,8 @@ axios.interceptors.response.use(function (response) {
 			$('small#' + e + 'Help').addClass('text-danger').text(errors[e][0]);
 		}
 		toastr.warning('Error al realizar operación');
-		if (errors.msg) toastr.warning(errors.msg);
-		setTimeout(function () {console.clear();},100);
+		// if (errors.msg) toastr.warning(errors.msg);
+		// setTimeout(function () {console.clear();},100);
 	}
 	return Promise.reject(error);
 });
