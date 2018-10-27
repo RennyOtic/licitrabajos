@@ -49,6 +49,7 @@ th span, tbody tr {
 			uri: {},
 			columns: {},
 			id: {},
+			num_id: {},
 			rs: {
 				default: function () {
 					return 1;
@@ -121,6 +122,7 @@ th span, tbody tr {
 				if (this.search) url += '&search=' + this.search;
 				if (this.dir) url += '&dir=' + this.dir;
 				if (this.order) url += '&order=' + this.order;
+				if (this.num_id) url += '&num_id=' + this.num_id;
 				$('tbody tr').removeClass('active');
 				this.$emit('output', false);
 				axios.get(url)

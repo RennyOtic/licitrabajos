@@ -1,5 +1,5 @@
 <template>
-  <modal id="tender-form" w="lg">
+  <modal id="mytender-form" w="lg">
 
     <template slot="modal-title">
       <span :class="'glyphicon glyphicon-' + formData.cond"></span>
@@ -24,6 +24,16 @@
               </label>
               <textarea id="descripcion" rows="2" class="form-control" v-model="formData.data.descripcion"></textarea>
               <small id="descripcionHelp" class="form-text text-muted" v-html="msg.descripcion"></small>
+            </div>
+          </div>
+
+          <div class="col-md-12">
+            <div class="form-group">
+              <label for="servicio_id" class="control-label">
+                <span class="edit"></span> Area Servicio:
+              </label>
+              <rs-multiselect v-model="formData.data.servicio" :options="select2_options(servicio)" :hide-selected="true"></rs-multiselect>
+              <small id="servicio_idHelp" class="form-text text-muted" v-html="msg.servicio_id"></small>
             </div>
           </div>
 
@@ -61,16 +71,19 @@
 <script>
   import Modal from './../partials/modal.vue';
   import Input from './../partials/input.vue';
+  import Multiselect from 'vue-multiselect';
 
   export default {
     name: 'modal-form-tender',
     components: {
       'modal': Modal,
       'rs-input': Input,
+      'rs-multiselect': Multiselect,
     },
     props: ['formData'],
     data () {
       return {
+        servicio: [],
         entries: [
         {label: 'Titulo', id: 'nombre', icon: 'fa fa-user'},
         {label: 'Imagen', id: 'imagen', icon: 'fa fa-user', type: 'file', accept:"image/*"},
@@ -81,36 +94,37 @@
         ],
         msg: {
           nombre: 'Nombre de la Licitación.',
-          imagen: 'Apellido Relacionada.',
+          imagen: 'Imagen Relacionada.',
+          servicio_id: 'Area de servicio.',
           precio_minimo: 'Precio promedio.',
           precio_maximo: 'Precio promedio.',
-          descripcion: '.',
-          tiempo: 'Confirmación de Contraseña.',
+          descripcion: 'Descripción general del problema.',
+          tiempo: 'Tiempo de espera de ofertas.',
         }
       };
     },
     mounted: function () {
-      // axios.post('/admin/get-data-users')
-      // .then(response => {this.roles = response.data.roles;});
+      axios.post('/get-data-tenders')
+      .then(response => {this.servicio = response.data.servicio;});
     },
     methods: {
       registrar: function (el) {
         this.restoreMsg(this.msg);
-        // this.formData.user.roles = this.select2_search(this.roles, this.formData.user.rol);
-        if (this.formData.cond === 'plus') {
+        this.formData.data.servicio_id = this.select2_search(this.servicio, this.formData.data.servicio);
+        if (this.formData.cond == 'plus') {
           axios.post(this.formData.url, this.formData.data)
           .then(response => {
             toastr.success('Registro Exitoso');
             this.$emit('input');
-            $('#tender-form').modal('hide');
+            $('#mytender-form').modal('hide');
           });
         } else {
-          // axios.put(this.formData.url, this.formData.user)
-          // .then(response => {
-          //   toastr.success('Actualización Exitosa');
-          //   this.$emit('input');
-          //   $('#user-form').modal('hide');
-          // });
+          axios.put(this.formData.url, this.formData.data)
+          .then(response => {
+            toastr.success('Actualización Exitosa');
+            this.$emit('input');
+            $('#mytender-form').modal('hide');
+          });
         }
       }
     }

@@ -35,9 +35,12 @@
 				permissionsRol: this.user,
 				permissions: [],
 				modules: {
-					'user': 'Usuarios',
-					'rol': 'Roles',
-					'permission': 'Permisos',
+					user: 'Usuarios',
+					rol: 'Roles',
+					permission: 'Permisos',
+					tender: 'Licitaciones General',
+					mytender: 'Licitaciones Propias del Usuario',
+					offer: 'Ofertas',
 				},
 			};
 		},

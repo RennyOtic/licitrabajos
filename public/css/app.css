@@ -11670,3 +11670,7 @@ div.multiselect__tags {
   border-color: #d2d6de;
 }
 
+textarea {
+  resize: none;
+}
+

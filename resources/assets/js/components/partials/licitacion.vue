@@ -11,16 +11,16 @@
 			</a>
 			<p v-text="data.descripcion"></p>
 			<p>
-				<a class="label label-primary" href="#">asd</a>
-				<a class="label label-primary" href="#">asd</a>
+				<a class="label label-primary" href="#" v-text="data.servicio.nombre"></a>
+				<small class="small">Culmina {{ data.hasta }}.</small>
 			</p>
 		</div>
 		<div class="col-md-2 text-center">
 			<p>
 				<h4><b>${{ data.precio_minimo }} - ${{ data.precio_maximo }}</b></h4>
 			</p>
-			<p>0 ofertas</p>
-			<!-- <a href="#" class="btn btn btn-success">Ofertar Ahora</a> -->
+			<p>{{ data.num_ofertas }} ofertas</p>
+			<router-link v-if="can('offer.store')" :to="{ name: 'offer.store', params: { id: data.id } }" class="btn btn btn-success">Ofertar Ahora</router-link>
 		</div>
 	</div>
 </template>

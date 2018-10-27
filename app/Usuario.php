@@ -75,4 +75,14 @@ class Usuario extends Authenticatable
     {
         return $this->belongsToMany(Models\Servicio::class);
     }
+
+    public function licitaciones()
+    {
+        return $this->hasMany(Models\Licitacion::class, 'persona_id');
+    }
+
+    public function licitaciones2()
+    {
+        return $this->hasMany(Models\Licitacion::class, 'empresa_id');
+    }
 }

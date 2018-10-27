@@ -33,7 +33,7 @@
             </router-link>
         </li>
         <li v-if="can('mytender.index')">
-            <router-link :to="{ name: 'tender.index' }">
+            <router-link :to="{ name: 'mytender.index' }">
                 <i class="fa fa-dashboard"></i> <span>Mis Licitaciones</span>
             </router-link>
         </li>
@@ -43,5 +43,3 @@
 <script>
     export default {}
 </script>
-
-

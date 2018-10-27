@@ -54,8 +54,15 @@ Route::group(['middleware' => ['auth', 'onlyAjax']], function () {
 
     });
 
-    // Users Routes...
-    Route::resource('tenders', 'TendersController')->except(['create', 'edit']);
+    // Licitaciones Routes...
+    Route::resource('tenders', 'TendersController')->only(['index']);//->except(['create', 'edit', 'store']);
+
+    // Mis Licitaciones Routes...
+    Route::resource('mytenders', 'MyTendersController')->except(['create', 'edit']);
+    Route::post('get-data-tenders', 'MyTendersController@dataForRegister');
+
+    // Mis Licitaciones Routes...
+    Route::resource('offers', 'OffersController')->except(['create', 'edit']);
 
     Route::group(['prefix' => '/', 'namespace' => 'Dashboard', 'as' => 'Dashboard::'], function () {
         Route::get('profile', 'ProfileController@show');
@@ -71,7 +78,6 @@ Route::group(['middleware' => ['auth', 'onlyAjax']], function () {
  * Requieren autentificación.
  */
 Route::group(['middleware' => 'auth'], function () {
-
     /**
      * Admin, Acceso para módulos de configuración.
      * "/admin/*"

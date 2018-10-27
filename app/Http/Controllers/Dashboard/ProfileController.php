@@ -21,9 +21,13 @@ class ProfileController extends Controller
         $user = \Auth::user();
         $user->fullName = $user->fullName();
         $user->logoPath = $user->getLogoPath();
-        $user->roles;
+        $rol = $user->rol->first()->nombre;
+        $user->miembro = $user->created_at->diffForHumans();
         $servicios = $user->servicios->pluck('nombre')->toArray();
-        unset($user->servicios);
+        $user->projects_p = $user->licitaciones->count();
+        $user->projects_r = $user->licitaciones2->count();
+        unset($user->servicios, $user->licitaciones, $user->licitaciones2, $user->rol);
+        $user->rol = $rol;
         $user->servicios = $servicios;
         $servicio = Servicio::get(['id', 'nombre as text']);
         return response()->json(compact('user', 'servicio'));

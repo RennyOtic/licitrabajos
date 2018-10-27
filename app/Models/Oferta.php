@@ -20,7 +20,7 @@ class Oferta extends Model
     protected $fillable = [
     	'licitacion_id',
     	'usuario_id',
-    	'descripcion',
+    	'propuesta',
     ];
 
     /**
@@ -31,4 +31,14 @@ class Oferta extends Model
     protected $hidden = [
     	'created_at' , 'updated_at', 'deleted_at'
     ];
+
+    public function usuario()
+    {
+        return $this->belongsTo(\App\Usuario::class);
+    }
+
+    public function licitacion()
+    {
+        return $this->belongsTo(Licitacion::class);
+    }
 }

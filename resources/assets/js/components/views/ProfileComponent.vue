@@ -7,7 +7,14 @@
 
                     <h3 class="profile-username text-center" v-text="user.fullName"></h3>
 
-                    <p class="text-muted text-center" v-for="rol in user.roles">{{ rol.nombre }}<br></p>
+                    <p class="text-muted text-center">{{ user.rol }}<br></p>
+
+                    <p class="text-muted text-center" v-if="can('mytender.store')"><b>Proyecto Publicados: {{ user.projects_p }}</b></p>
+
+                    <p class="text-muted text-center" v-if="can('offer.store')"><b>Proyecto Realizados: {{ user.projects_r }}</b></p>
+
+                    <p class="text-muted text-center"><b>Miembro desde: {{ user.miembro }}</b></p>
+
                 </div>
             </div>
         </div>

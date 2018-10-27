@@ -7,6 +7,16 @@ use App\Models\Licitacion;
 
 class TendersController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('can:tender,index')->only(['index']);
+        // $this->middleware('can:tender,store')->only(['store']);
+        // $this->middleware('can:tender,show')->only(['show']);
+        // $this->middleware('can:tender,update')->only(['update']);
+        // $this->middleware('can:tender,destroy')->only(['destroy']);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,9 +24,18 @@ class TendersController extends Controller
      */
     public function index()
     {
-        // request()->num = 5;
-        $licitacion = Licitacion::dataForPaginate(['*'], function ($l) {
+        $select = ['id', 'nombre', 'descripcion', 'empresa_id', 'status_id', 'precio_minimo', 'precio_maximo', 'created_at', 'imagen', 'servicio_id', 'tiempo'];
+        $licitacion = Licitacion::orderBy(request()->order?:'id', request()->dir?:'ASC')
+        ->where('status_id', 1)
+        ->search(request()->search)
+        ->select($select)
+        ->paginate(request()->num?:5);
+        $licitacion->each(function ($l) {
             $l->desde = $l->created_at->diffForHumans();
+            $l->hasta = $l->created_at->addDays($l->tiempo)->diffForHumans();
+            $l->num_ofertas = $l->ofertas->count();
+            $servicio = $l->servicio->nombre;
+            unset($l->ofertas);
         });
         return $this->dataWithPagination($licitacion);
     }
@@ -29,20 +48,7 @@ class TendersController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->validate([
-            'descripcion' => 'required|string|min:2|max:350',
-            'imagen' => 'nullable|string',
-            'nombre' => 'required|string|min:2|max:50',
-            'precio_maximo' => 'required|numeric|min:' . $request->precio_minimo,
-            'precio_minimo' => 'required|numeric|max:' . $request->precio_maximo,
-            'tiempo' => 'required|numeric|min:1|max:10',
-        ],[],['descripcion' => 'descripción']);
-        $data['persona_id'] = \Auth::user()->id;
-        $data['status_id'] = 1;
-        $data['slug'] = str_replace(' ', '-', $data['nombre']);
-        $slug = Licitacion::where('slug', '=', $data['slug'])->count();
-        if ($slug > 0) $data['slug'] .= '-' . $slug;
-        Licitacion::create($data);
+
     }
 
     /**

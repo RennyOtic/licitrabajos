@@ -39,6 +39,7 @@ class CreateLicitacionesTables extends Migration
             $table->string('slug');
             $table->text('descripcion');
             $table->unsignedInteger('status_id');
+            $table->unsignedInteger('servicio_id');
             $table->unsignedInteger('persona_id');
             $table->unsignedInteger('empresa_id')->nullable();
             $table->unsignedInteger('precio_minimo');

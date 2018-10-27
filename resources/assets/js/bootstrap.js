@@ -87,12 +87,14 @@ axios.interceptors.response.use(function (response) {
 	if (errors.status == 422) {
 		$('button, input').removeAttr('disabled')
 		errors = errors.data.errors;
+		// console.log(error.response.data)
 		for(let e in errors) {
+			// console.log($('small#' + e + 'Help'))
 			$('small#' + e + 'Help').addClass('text-danger').text(errors[e][0]);
 		}
 		toastr.warning('Error al realizar operación');
-		if (errors.msg) toastr.warning(errors.msg);
-		setTimeout(function () {console.clear();},100);
+		// if (errors.msg) toastr.warning(errors.msg);
+		// setTimeout(function () {console.clear();},100);
 	}
 	return Promise.reject(error);
 });
