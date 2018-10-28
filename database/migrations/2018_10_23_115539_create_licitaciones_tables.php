@@ -38,6 +38,8 @@ class CreateLicitacionesTables extends Migration
             $table->string('nombre');
             $table->string('slug');
             $table->text('descripcion');
+            $table->text('comentario')->nullable();
+            $table->unsignedInteger('evaluacion')->nullable();
             $table->unsignedInteger('status_id');
             $table->unsignedInteger('servicio_id');
             $table->unsignedInteger('persona_id');
@@ -74,6 +76,7 @@ class CreateLicitacionesTables extends Migration
             $table->unsignedInteger('licitacion_id');
             $table->unsignedInteger('usuario_id');
             $table->text('propuesta');
+            $table->unsignedInteger('estatus_id')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

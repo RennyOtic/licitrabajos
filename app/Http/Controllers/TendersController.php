@@ -11,7 +11,7 @@ class TendersController extends Controller
     public function __construct()
     {
         $this->middleware('can:tender,index')->only(['index']);
-        // $this->middleware('can:tender,store')->only(['store']);
+        $this->middleware('can:tender,store')->only(['store']);
         // $this->middleware('can:tender,show')->only(['show']);
         // $this->middleware('can:tender,update')->only(['update']);
         // $this->middleware('can:tender,destroy')->only(['destroy']);
@@ -27,6 +27,7 @@ class TendersController extends Controller
         $select = ['id', 'nombre', 'descripcion', 'empresa_id', 'status_id', 'precio_minimo', 'precio_maximo', 'created_at', 'imagen', 'servicio_id', 'tiempo'];
         $licitacion = Licitacion::orderBy(request()->order?:'id', request()->dir?:'ASC')
         ->where('status_id', 1)
+        ->whereIn('servicio_id', \Auth::user()->servicios->pluck('id'))
         ->search(request()->search)
         ->select($select)
         ->paginate(request()->num?:5);
@@ -48,7 +49,13 @@ class TendersController extends Controller
      */
     public function store(Request $request)
     {
-
+        $data = $request->validate([
+            'comentario' => 'required|string',
+            'evaluacion' => 'required|numeric|min:1|max:5',
+            'id' => 'required|numeric'
+        ]);
+        Licitacion::findOrFail($request->id)
+        ->update($data);
     }
 
     /**

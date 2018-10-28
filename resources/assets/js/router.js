@@ -8,7 +8,8 @@ import Permissions from './components/views/PermissionsComponent.vue';
 import Tenders from './components/views/TendersComponent.vue';
 import Mytender from './components/views/MytenderComponent.vue';
 import Offer_S from './components/forms/form-offer.vue';
-import Offer from './components/views/offerComponent.vue';
+import Offer from './components/views/OfferComponent.vue';
+import Tender_show from './components/views/Tender_showComponent.vue';
 import NotFound from './components/views/NotFoundComponent.vue';
 
 const router = new VueRouter({
@@ -69,6 +70,11 @@ const router = new VueRouter({
 		path: '/ver-oferta/:id', 
 		name: 'offer.index',
 		component: Offer
+	},
+	{ 
+		path: '/licitacion/:id', 
+		name: 'tender.show',
+		component: Tender_show
 	},
 	{
 		path: '*', 

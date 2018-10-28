@@ -135,12 +135,12 @@ class PermissionsSeeder extends Seeder
             'descripcion' => 'Permiso para ver Licitaciones'
         ]);
 
-        // App\Models\Permisologia\Permiso::create([
-        //     'nombre' => 'Crear Licitacion',
-        //     'modulo' => 'tender',
-        //     'accion' => 'store',
-        //     'descripcion' => 'Permiso para registrar Licitacion'
-        // ]);
+        App\Models\Permisologia\Permiso::create([
+            'nombre' => 'Evaluar Trabajo Licitacion',
+            'modulo' => 'tender',
+            'accion' => 'store',
+            'descripcion' => 'Permiso para Evaluar Trabajo Licitacion'
+        ]);
 
         // App\Models\Permisologia\Permiso::create([
         //     'nombre' => 'Ver Licitacion',
@@ -238,5 +238,13 @@ class PermissionsSeeder extends Seeder
             'accion' => 'destroy',
             'descripcion' => 'Permiso para Eliminar Mi Oferta'
         ]);
+
+        App\Models\Permisologia\Permiso::create([
+            'nombre' => 'Aceptar Oferta',
+            'modulo' => 'offer',
+            'accion' => 'accept',
+            'descripcion' => 'Permiso para Aceptar Oferta'
+        ]);
+
     }
 }

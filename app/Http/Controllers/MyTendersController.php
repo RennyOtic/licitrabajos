@@ -32,11 +32,13 @@ class MyTendersController extends Controller
         ->select($select)
         ->paginate(request()->num?:10);
         $licitacion->each(function ($l) {
+            if ($l->empresa_id) $l->nombre = '<a href="/licitacion/' . $l->id . '">' . $l->nombre . '</a>';
             $l->propuestas = $l->ofertas->count();
             $l->status_id = $l->status->nombre;
+            $l->empresa_id = optional($l->empresa)->fullName();
             $l->promedio = $l->precio_minimo . '$ - ' . $l->precio_maximo . '$';
             $l->desde = $l->created_at->diffForHumans();
-            unset($l->status);
+            unset($l->status, $l->empresa, $l->ofertas);
         });
         return $this->dataWithPagination($licitacion);
     }
@@ -76,6 +78,9 @@ class MyTendersController extends Controller
     {
         $licitacion = Licitacion::findOrFail($id);
         $servicio = $licitacion->servicio->nombre;
+        $licitacion->empresa;
+        $licitacion->ev = ($licitacion->evaluacion) ? false : true;
+        if ($licitacion->empresa != null) $licitacion->empresa->fullName = $licitacion->empresa->fullName();
         $offer = $licitacion->ofertas->where('usuario_id', \Auth::user()->id)->first();
         $licitacion->offer = optional($offer)->id;
         $licitacion->propuesta = optional($offer)->propuesta;

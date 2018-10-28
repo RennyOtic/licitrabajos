@@ -43,6 +43,7 @@
                     columns: [
                     { title: 'Trabajador', field: 'nombre'},
                     { title: 'Detalles', field: 'propuesta', sortable: true },
+                    { title: 'Estatus', field: 'estatus_id', sortable: true },
                     { title: 'Fecha', field: 'date' },
                     { title: 'Hora', field: 'hour' },
                     ]

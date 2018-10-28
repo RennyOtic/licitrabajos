@@ -29,6 +29,8 @@ class Licitacion extends Model
         'nombre',
         'precio_minimo',
         'precio_maximo',
+        'comentario',
+        'evaluacion',
     ];
 
     /**
@@ -48,6 +50,11 @@ class Licitacion extends Model
     public function servicio()
     {
         return $this->belongsTo(Servicio::class);
+    }
+
+    public function empresa()
+    {
+        return $this->belongsTo(\App\Usuario::class);
     }
 
     public function ofertas()

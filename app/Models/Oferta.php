@@ -21,6 +21,7 @@ class Oferta extends Model
     	'licitacion_id',
     	'usuario_id',
     	'propuesta',
+        'estatus_id',
     ];
 
     /**
@@ -40,5 +41,10 @@ class Oferta extends Model
     public function licitacion()
     {
         return $this->belongsTo(Licitacion::class);
+    }
+
+    public function estatus()
+    {
+        return $this->belongsTo(Estatus::class);
     }
 }

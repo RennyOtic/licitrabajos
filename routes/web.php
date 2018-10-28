@@ -55,14 +55,16 @@ Route::group(['middleware' => ['auth', 'onlyAjax']], function () {
     });
 
     // Licitaciones Routes...
-    Route::resource('tenders', 'TendersController')->only(['index']);//->except(['create', 'edit', 'store']);
+    Route::resource('tenders', 'TendersController')->only(['index', 'store']);//->except(['create', 'edit', 'store']);
 
     // Mis Licitaciones Routes...
     Route::resource('mytenders', 'MyTendersController')->except(['create', 'edit']);
     Route::post('get-data-tenders', 'MyTendersController@dataForRegister');
 
-    // Mis Licitaciones Routes...
+    // Ofertas Routes...
     Route::resource('offers', 'OffersController')->except(['create', 'edit']);
+    Route::post('get-data-offers', 'OffersController@dataForRegister');
+    Route::post('accept', 'OffersController@accept');
 
     Route::group(['prefix' => '/', 'namespace' => 'Dashboard', 'as' => 'Dashboard::'], function () {
         Route::get('profile', 'ProfileController@show');

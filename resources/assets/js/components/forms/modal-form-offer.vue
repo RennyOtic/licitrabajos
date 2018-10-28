@@ -42,7 +42,21 @@
           </div>
           <div class="row">
             <h4 class="text-center"><u>Propuesta:</u></h4>
-            <p v-text="formData.data.propuesta"></p>
+            <div class="col-md-8 col-md-offset-2" style="border: 3px solid #cacaca;border-radius: 15px;padding: 7px;">
+              <p v-text="formData.data.propuesta"></p>
+            </div>
+          </div>
+          <div class="row" v-if="can('offer.accept')">
+            <div class="col-md-10 col-md-offset-1">
+              <div class="form-group">
+                <label for="estatus" class="control-label">Estatus de Propuesta:</label>
+                <select id="estatus" class="form-control" v-model="formData.data.e">
+                  <option value="">Seleccione una opción</option>
+                  <option :value="e.id" v-for="e in estatus" v-text="e.nombre"></option>
+                </select>
+                <small id="estatushelp" class="form-text text-muted">Seleccione un estatus para esta propuesta.</small>
+              </div>
+            </div>
           </div>
         </form>
       </div>
@@ -57,69 +71,41 @@
 </template>
 
 <style scoped="">
-th {
-  background-color: #e3e3e3;
-}
+th {background-color: #e3e3e3;}
 </style>
 
 <script>
   import Modal from './../partials/modal.vue';
-  // import Input from './../partials/input.vue';
-  // import Multiselect from 'vue-multiselect';
 
   export default {
     name: 'modal-form-offer',
     components: {
       'modal': Modal,
-      // 'rs-input': Input,
-      // 'rs-multiselect': Multiselect,
     },
     props: ['formData'],
     data () {
       return {
-        // servicio: [],
-        // entries: [
-        // {label: 'Titulo', id: 'nombre', icon: 'fa fa-user'},
-        // {label: 'Imagen', id: 'imagen', icon: 'fa fa-user', type: 'file', accept:"image/*"},
-        // ],
-        // entries2: [
-        // {label: 'Precio Mínimo', id: 'precio_minimo', icon: 'fa fa-user', type: 'number', min: 0},
-        // {label: 'Precio Maximo', id: 'precio_maximo', icon: 'fa fa-user', type: 'number', min: 0},
-        // ],
-        // msg: {
-        //   nombre: 'Nombre de la Licitación.',
-        //   imagen: 'Imagen Relacionada.',
-        //   servicio_id: 'Area de servicio.',
-        //   precio_minimo: 'Precio promedio.',
-        //   precio_maximo: 'Precio promedio.',
-        //   descripcion: 'Descripción general del problema.',
-        //   tiempo: 'Tiempo de espera de ofertas.',
-        // }
+        estatus: [],
       };
     },
     mounted: function () {
-      // axios.post('/get-data-tenders')
-      // .then(response => {this.servicio = response.data.servicio;});
+      axios.post('/get-data-offers')
+      .then(response => {this.estatus = response.data.estatus;});
     },
     methods: {
       registrar: function (el) {
-        // this.restoreMsg(this.msg);
-        // this.formData.data.servicio_id = this.select2_search(this.servicio, this.formData.data.servicio);
-        // if (this.formData.cond == 'plus') {
-        //   axios.post(this.formData.url, this.formData.data)
-        //   .then(response => {
-        //     toastr.success('Registro Exitoso');
-        //     this.$emit('input');
-        //     $('#mytender-form').modal('hide');
-        //   });
-        // } else {
-        //   axios.put(this.formData.url, this.formData.data)
-        //   .then(response => {
-        //     toastr.success('Actualización Exitosa');
-        //     this.$emit('input');
-        //     $('#mytender-form').modal('hide');
-        //   });
-        // }
+        if (this.formData.data.e == undefined) {
+          return $('#offer-form').modal('hide');
+        }
+        axios.post('/accept', {
+          estatus: this.formData.data.e,
+          id: this.formData.data.id,
+        })
+        .then(response => {
+          toastr.success('Registro Exitoso');
+          this.$emit('input');
+          $('#offer-form').modal('hide');
+        });
       }
     }
   }

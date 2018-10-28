@@ -22,7 +22,7 @@
 	</div>
 </template>
 
-<style>
+<style scoped="">
 th span, tbody tr {
 	cursor: pointer;
 }

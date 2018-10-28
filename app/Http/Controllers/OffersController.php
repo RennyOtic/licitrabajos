@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\{Oferta,Licitacion};
+use App\Models\ { Oferta, Licitacion, Estatus};
 
 class OffersController extends Controller
 {
@@ -15,6 +15,7 @@ class OffersController extends Controller
         $this->middleware('can:offer,show')->only(['show']);
         $this->middleware('can:offer,update')->only(['update']);
         $this->middleware('can:offer,destroy')->only(['destroy']);
+        $this->middleware('can:offer,accept')->only(['accept']);
     }
 
     /**
@@ -31,6 +32,7 @@ class OffersController extends Controller
         ->paginate(request()->num?:10);
         $oferta->each(function ($o) {
             $o->nombre = $o->usuario->fullName();
+            $o->estatus_id = optional($o->estatus)->nombre;
             $o->date = $o->created_at->format('d-m-Y');
             $o->hour = $o->created_at->format('H:i:s');
             unset($o->usuario);
@@ -97,5 +99,23 @@ class OffersController extends Controller
     public function destroy($id)
     {
         Oferta::findOrFail($id)->delete();
+    }
+
+    public function dataForRegister()
+    {
+        $estatus = Estatus::get(['id', 'nombre']);
+        return response()->json(compact('estatus'));
+    }
+
+    public function accept(Request $request)
+    {
+        $oferta = Oferta::findOrFail($request->id);
+        $licitacion = Licitacion::findOrFail($oferta->licitacion_id);
+        $licitacion->update(['empresa_id' => null, 'status_id' => 1]);
+        if ($request->estatus == 2) {
+            $licitacion->ofertas->each->update(['estatus_id' => 3]);
+            $licitacion->update(['empresa_id' => $oferta->usuario_id, 'status_id' => 2]);
+        }
+        $oferta->update(['estatus_id' => $request->estatus]);
     }
 }
