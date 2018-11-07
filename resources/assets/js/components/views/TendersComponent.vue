@@ -1,5 +1,5 @@
 <template>
-    <div class="box">
+    <div class="box box-primary">
         <div class="box-header text-center">
             <h3 class="box-title">Licitaciones:</h3>
         </div>

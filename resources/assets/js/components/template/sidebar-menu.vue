@@ -12,7 +12,7 @@
             <ul class="treeview-menu">
                 <li v-if="can('user.index')">
                     <router-link :to="{ name: 'user.index' }">
-                        <i class="fa fa-users"></i> Usuarios
+                        <i class="fa fa-user"></i> Usuarios
                     </router-link>
                 </li>
                 <li v-if="can('rol.index')">
@@ -35,6 +35,16 @@
         <li v-if="can('mytender.index')">
             <router-link :to="{ name: 'mytender.index' }">
                 <i class="fa fa-dashboard"></i> <span>Mis Licitaciones</span>
+            </router-link>
+        </li>
+        <li v-if="can('myOfferts.index')">
+            <router-link :to="{ name: 'myOfferts.index' }">
+                <i class="glyphicon glyphicon-th"></i> <span>Mis Ofertas</span>
+            </router-link>
+        </li>
+        <li v-if="can('chat.index')">
+            <router-link :to="{ name: 'chat.index' }">
+                <i class="fa fa-users"></i> <span>Chat</span>
             </router-link>
         </li>
     </ul>

@@ -14,12 +14,12 @@ trait ModelsTrait
 	 */
 	public function getLogoPath()
 	{
-		$path = public_path('storage\users\image\\') . \Auth::user()->id . '.';
+		$path = public_path('storage\users\image\\') . $this->id . '.';
 		$ext = ['jpg', 'jpeg', 'png'];
 
 		foreach ($ext as $e) {
 			if (is_readable($path . $e)) {
-				return asset('storage\users\image\\') . \Auth::user()->id . '.' . $e;
+				return asset('storage\users\image\\') . $this->id . '.' . $e;
 			}
 		}
 		return "\adminlte\img\icon-avatar-default.png";

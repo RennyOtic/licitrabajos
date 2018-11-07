@@ -79,6 +79,10 @@ class CreateLicitacionesTables extends Migration
             $table->unsignedInteger('estatus_id')->nullable();
             $table->timestamps();
             $table->softDeletes();
+
+            $table->foreign('licitacion_id')->references('id')->on('licitacion')->onDelete('cascade');
+            $table->foreign('usuario_id')->references('id')->on('usuario')->onDelete('cascade');
+            $table->foreign('estatus_id')->references('id')->on('estatus')->onDelete('cascade');
         });
         // Schema::create('evento', function (Blueprint $table) {
         //     $table->increments('id');
@@ -89,24 +93,29 @@ class CreateLicitacionesTables extends Migration
         //     $table->foreign('usuario_id')->references('id')->on('usuario')->onDelete('cascade');
         //     $table->foreign('licitacion_id')->references('id')->on('licitacion')->onDelete('cascade');
         // });
-        // Schema::create('chat', function (Blueprint $table) {
-        //     $table->increments('id');
-        //     $table->unsignedInteger('licitacion_id');
-        //     $table->timestamps();
-        //     $table->softDeletes();
-        // 
-        //     $table->foreign('licitacion_id')->references('id')->on('licitacion')->onDelete('cascade');
-        // });
-        // Schema::create('conversacion', function (Blueprint $table) {
-        //     $table->increments('id');
-        //     $table->unsignedInteger('chat_id');
-        //     $table->unsignedInteger('usuario_id');
-        //     $table->text('conversacion');
-        //     $table->timestamps();
-        //     $table->softDeletes();
-        //     $table->foreign('usuario_id')->references('id')->on('usuario')->onDelete('cascade');
-        //     $table->foreign('chat_id')->references('id')->on('chat')->onDelete('cascade');
-        // });
+        Schema::create('chat', function (Blueprint $table) {
+            $table->increments('id');
+            $table->unsignedInteger('licitacion_id');
+            $table->unsignedInteger('persona_id');
+            $table->unsignedInteger('empresa_id');
+            $table->timestamps();
+            $table->softDeletes();
+
+            $table->foreign('licitacion_id')->references('id')->on('licitacion')->onDelete('cascade');
+            $table->foreign('persona_id')->references('id')->on('usuario')->onDelete('cascade');
+            $table->foreign('empresa_id')->references('id')->on('usuario')->onDelete('cascade');
+        });
+        Schema::create('mensaje', function (Blueprint $table) {
+            $table->increments('id');
+            $table->unsignedInteger('chat_id');
+            $table->unsignedInteger('usuario_id');
+            $table->text('mensaje');
+            $table->timestamps();
+            $table->softDeletes();
+
+            $table->foreign('chat_id')->references('id')->on('chat')->onDelete('cascade');
+            $table->foreign('usuario_id')->references('id')->on('usuario')->onDelete('cascade');
+        });
     }
 
     /**
@@ -116,6 +125,7 @@ class CreateLicitacionesTables extends Migration
      */
     public function down()
     {
+        Schema::dropIfExists('servicio_usuario');
         Schema::dropIfExists('servicio');
         Schema::dropIfExists('estatus');
         Schema::dropIfExists('valoracion');
@@ -123,7 +133,7 @@ class CreateLicitacionesTables extends Migration
         Schema::dropIfExists('oferta');
         Schema::dropIfExists('licitacion');
         // Schema::dropIfExists('evento');
-        // Schema::dropIfExists('chat');
-        // Schema::dropIfExists('conversacion');
+        Schema::dropIfExists('chat');
+        Schema::dropIfExists('mensaje');
     }
 }

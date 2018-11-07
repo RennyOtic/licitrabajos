@@ -2,7 +2,7 @@
 	<div class="row">
 		<div class="col-md-12">
 			<header-table :n="n" :c="nc" @changeN="num = arguments[0]" @changeS="search = arguments[0]"></header-table>
-			<div class="table-responsive">
+			<div class="table-responsive rs_table">
 				<table :id="id" class="table table-bordered table-hover table-condensed">
 					<thead>
 						<tr>

@@ -3,8 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Licitacion;
-use App\Models\Servicio;
+use App\Models\ { Licitacion, Servicio, Chat };
 
 class MyTendersController extends Controller
 {
@@ -25,18 +24,29 @@ class MyTendersController extends Controller
      */
     public function index()
     {
-        $select = ['id', 'nombre', 'descripcion', 'empresa_id', 'status_id', 'precio_minimo', 'precio_maximo', 'created_at'];
-        $licitacion = Licitacion::orderBy(request()->order?:'id', request()->dir?:'ASC')
+        $select = ['id', 'nombre', 'descripcion', 'empresa_id', 'status_id', 'evaluacion', 'created_at', 'persona_id'];
+        $licitacion = Licitacion::orderBy(request()->order?:'id', request()->dir?:'DESC')
         ->where('persona_id', \Auth::user()->id)
         ->search(request()->search)
         ->select($select)
         ->paginate(request()->num?:10);
         $licitacion->each(function ($l) {
-            if ($l->empresa_id) $l->nombre = '<a href="/licitacion/' . $l->id . '">' . $l->nombre . '</a>';
             $l->propuestas = $l->ofertas->count();
             $l->status_id = $l->status->nombre;
+
+            $chat = Chat::where('licitacion_id', $l->id)
+            ->where('persona_id', $l->persona_id)
+            ->where('empresa_id', $l->empresa_id)
+            ->first();
             $l->empresa_id = optional($l->empresa)->fullName();
-            $l->promedio = $l->precio_minimo . '$ - ' . $l->precio_maximo . '$';
+            if ($chat) $l->empresa_id = '<a href="/chat/' . $chat->id . '">' . $l->empresa_id . '</a>';
+            if ($l->empresa_id && $l->evaluacion == '') {
+                $l->evaluacion = '<a href="/licitacion/' . $l->id . '">Evaluar</a>';
+            } elseif ($l->evaluacion == null) {
+                $l->evaluacion = 'No Evaluado';
+            } else {
+                $l->evaluacion = 'No Evaluado';
+            }
             $l->desde = $l->created_at->diffForHumans();
             unset($l->status, $l->empresa, $l->ofertas);
         });

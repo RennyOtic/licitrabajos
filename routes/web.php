@@ -61,10 +61,17 @@ Route::group(['middleware' => ['auth', 'onlyAjax']], function () {
     Route::resource('mytenders', 'MyTendersController')->except(['create', 'edit']);
     Route::post('get-data-tenders', 'MyTendersController@dataForRegister');
 
+    // Mis Ofertas Routes...
+    Route::resource('my-offerts', 'MyOffertsController')->only(['index', 'show', 'destroy']);
+
     // Ofertas Routes...
     Route::resource('offers', 'OffersController')->except(['create', 'edit']);
     Route::post('get-data-offers', 'OffersController@dataForRegister');
     Route::post('accept', 'OffersController@accept');
+
+    // Chat Routes...
+    Route::resource('chats', 'ChatsController')->only(['show', 'store']);
+    Route::post('get-data-chats', 'ChatsController@dataForRegister');
 
     Route::group(['prefix' => '/', 'namespace' => 'Dashboard', 'as' => 'Dashboard::'], function () {
         Route::get('profile', 'ProfileController@show');

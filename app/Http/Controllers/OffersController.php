@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\ { Oferta, Licitacion, Estatus};
+use App\Models\ { Oferta, Licitacion, Estatus, Chat };
 
 class OffersController extends Controller
 {
@@ -31,11 +31,23 @@ class OffersController extends Controller
         ->search(request()->search)
         ->paginate(request()->num?:10);
         $oferta->each(function ($o) {
-            $o->nombre = $o->usuario->fullName();
+            if ($o->estatus_id == 2) {
+                $chat = Chat::where('licitacion_id', $o->licitacion_id)
+                ->where('persona_id', $o->licitacion->persona_id)
+                ->where('empresa_id', $o->usuario_id)
+                ->first();
+                if ($chat) {
+                    $o->nombre = '<a href="/chat/' . $chat->id . '">' . $o->usuario->fullName() . '</a>';
+                } else {
+                    $o->nombre = $o->usuario->fullName();
+                }
+            } else {
+                $o->nombre = $o->usuario->fullName();
+            }
             $o->estatus_id = optional($o->estatus)->nombre;
             $o->date = $o->created_at->format('d-m-Y');
             $o->hour = $o->created_at->format('H:i:s');
-            unset($o->usuario);
+            unset($o->usuario, $o->licitacion);
         });
         return $this->dataWithPagination($oferta);
     }
@@ -57,6 +69,7 @@ class OffersController extends Controller
             'propuesta' => 'required|string|min:5|max:350'
         ],[],['licitacion_id' => 'licitación']);
         $data['usuario_id'] = \Auth::user()->id;
+        $data['estatus_id'] = 1;
         $offer = Oferta::where('licitacion_id', $data['licitacion_id'])->where('usuario_id', $data['usuario_id'])->count();
         if ($offer) return response()->json(['msg' => 'Ya Hizo su Propuesta.'], 401);
         Oferta::create($data);
@@ -115,6 +128,18 @@ class OffersController extends Controller
         if ($request->estatus == 2) {
             $licitacion->ofertas->each->update(['estatus_id' => 3]);
             $licitacion->update(['empresa_id' => $oferta->usuario_id, 'status_id' => 2]);
+            $chat = Chat::where('persona_id', $licitacion->persona_id)
+            ->where('empresa_id', $licitacion->empresa_id)
+            ->first();
+            if ($chat) {
+                $chat->update(['licitacion_id' => $licitacion->persona_id]);
+            } else {
+                Chat::create([
+                    'licitacion_id' => $licitacion->persona_id,
+                    'persona_id' => $licitacion->persona_id,
+                    'empresa_id' => $oferta->usuario_id
+                ]);
+            }
         }
         $oferta->update(['estatus_id' => $request->estatus]);
     }

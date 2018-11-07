@@ -149,20 +149,6 @@ class PermissionsSeeder extends Seeder
         //     'descripcion' => 'Permiso para ver un Licitacion'
         // ]);
 
-        // App\Models\Permisologia\Permiso::create([
-        //     'nombre' => 'Actualizar Licitacion',
-        //     'modulo' => 'tender',
-        //     'accion' => 'update',
-        //     'descripcion' => 'Permiso para actualizar Licitacion'
-        // ]);
-
-        // App\Models\Permisologia\Permiso::create([
-        //     'nombre' => 'Eliminar Licitacion',
-        //     'modulo' => 'tender',
-        //     'accion' => 'destroy',
-        //     'descripcion' => 'Permiso para Eliminar Licitacion'
-        // ]);
-
         /**
          * Permisos de Mis Licitaciones
          */
@@ -244,6 +230,54 @@ class PermissionsSeeder extends Seeder
             'modulo' => 'offer',
             'accion' => 'accept',
             'descripcion' => 'Permiso para Aceptar Oferta'
+        ]);
+
+        /**
+         * Permisos de Ofertas
+         */
+        App\Models\Permisologia\Permiso::create([
+            'nombre' => 'Ver Mis Ofertas',
+            'modulo' => 'myOfferts',
+            'accion' => 'index',
+            'descripcion' => 'Permiso para ver Mis Ofertas'
+        ]);
+
+        App\Models\Permisologia\Permiso::create([
+            'nombre' => 'Ver Mi Oferta',
+            'modulo' => 'myOfferts',
+            'accion' => 'show',
+            'descripcion' => 'Permiso para ver Mi Oferta'
+        ]);
+
+        App\Models\Permisologia\Permiso::create([
+            'nombre' => 'Eliminar Mi Oferta',
+            'modulo' => 'myOfferts',
+            'accion' => 'destroy',
+            'descripcion' => 'Permiso para Eliminar Mi Oferta'
+        ]);
+
+        /**
+         * Permisos de Chat
+         */
+        App\Models\Permisologia\Permiso::create([
+            'nombre' => 'Ver Chats',
+            'modulo' => 'chat',
+            'accion' => 'index',
+            'descripcion' => 'Permiso para ver Chats'
+        ]);
+
+        App\Models\Permisologia\Permiso::create([
+            'nombre' => 'Crear Chat',
+            'modulo' => 'chat',
+            'accion' => 'store',
+            'descripcion' => 'Permiso para registrar Chat'
+        ]);
+
+        App\Models\Permisologia\Permiso::create([
+            'nombre' => 'Ver Chat',
+            'modulo' => 'chat',
+            'accion' => 'show',
+            'descripcion' => 'Permiso para ver Chat'
         ]);
 
     }

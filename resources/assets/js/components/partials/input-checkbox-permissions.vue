@@ -41,6 +41,8 @@
 					tender: 'Licitaciones General',
 					mytender: 'Licitaciones Propias del Usuario',
 					offer: 'Ofertas',
+					myOfferts: 'Ofertas Propias del Usuario',
+					chat: 'Chat',
 				},
 			};
 		},

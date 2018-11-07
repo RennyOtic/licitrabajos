@@ -12,9 +12,6 @@ class TendersController extends Controller
     {
         $this->middleware('can:tender,index')->only(['index']);
         $this->middleware('can:tender,store')->only(['store']);
-        // $this->middleware('can:tender,show')->only(['show']);
-        // $this->middleware('can:tender,update')->only(['update']);
-        // $this->middleware('can:tender,destroy')->only(['destroy']);
     }
 
     /**
@@ -26,7 +23,7 @@ class TendersController extends Controller
     {
         $select = ['id', 'nombre', 'descripcion', 'empresa_id', 'status_id', 'precio_minimo', 'precio_maximo', 'created_at', 'imagen', 'servicio_id', 'tiempo'];
         $licitacion = Licitacion::orderBy(request()->order?:'id', request()->dir?:'ASC')
-        ->where('status_id', 1)
+        ->where('empresa_id', null)
         ->whereIn('servicio_id', \Auth::user()->servicios->pluck('id'))
         ->search(request()->search)
         ->select($select)
@@ -56,39 +53,5 @@ class TendersController extends Controller
         ]);
         Licitacion::findOrFail($request->id)
         ->update($data);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-
     }
 }

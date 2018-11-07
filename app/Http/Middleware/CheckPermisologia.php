@@ -19,7 +19,7 @@ class CheckPermisologia
         $user = Auth::user();
         if ($user->IsRootOrSuper()) return $next($request);
 
-        foreach ($user->roles as $rol) {
+        foreach ($user->rol as $rol) {
             if ($rol->special == 'all-access') return $next($request);
             // if ($rol->special == 'no-access') return redirect()->to('logout');
             if ($rol->special == 'no-access') return Auth::logout();
@@ -29,10 +29,10 @@ class CheckPermisologia
 
         if ($user->canActMod($module, $action)) return $next($request);
 
-        return Auth::logout();
+        // return Auth::logout();
 
         // return redirect()->to('/');
-        // return abort(401, 'No posee acceso.');
+        return abort(401, 'No posee acceso.');
         // return response('Unauthorized.', 401);
     }
 }

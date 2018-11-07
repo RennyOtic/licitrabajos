@@ -1,5 +1,5 @@
 <template>
-    <div class="box">
+    <div class="box box-primary">
         <div class="box-header text-center">
             <h3 class="box-title">Tabla de Licitaciones:</h3>
             <button type="button"
@@ -63,7 +63,7 @@
                     { title: 'Detalles', field: 'descripcion', sortable: true },
                     { title: 'Empleado', field: 'empresa_id', sortable: true },
                     { title: 'Estatus', field: 'status_id', sortable: true },
-                    { title: 'Promedio de precio', field: 'promedio', sort: 'precio_minimo', sortable: true },
+                    { title: 'Evaluación', field: 'evaluacion', sortable: true },
                     { title: 'Propuestas', field: 'propuestas', class: 'text-center' },
                     ]
                 }

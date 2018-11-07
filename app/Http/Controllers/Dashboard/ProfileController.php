@@ -62,27 +62,4 @@ class ProfileController extends Controller
         ])->save();
         return response()->json($user);
     }
-
-    /**
-     * Retorna los datos de los modulos.
-     * Permite al usuario cambiarse de modulo.
-     *
-     * @param  \App\Http\Requests\Request $request
-     * @return \Illuminate\Http\Response
-     */
-    // public function changeModule(Request $request)
-    // {
-        // if ($request->method() == 'POST') {
-        //     $user = User::findOrFail(Auth::user()->id)->fill([
-        //         'module_id' => $request->key
-        //     ])->save();
-        //     return response()->json($user);
-        // } elseif ($request->method() == 'GET') {
-        //     $module  = Auth::user()->module()->pluck('module', 'id')->toArray();
-        //     $modules = (Auth::user()->iCan('changeModule', 'module')) ? 
-        //     array_diff(Module::all()->pluck('module', 'id')->toArray(), $module) : null;
-
-        //     return response()->json(compact('modules', 'module'));
-        // }
-    // }
 }

@@ -1,5 +1,5 @@
 <template>
-	<div class="box">
+	<div class="box box-primary">
 		<div class="box-header text-center">
 			<h3 class="box-title">Tabla de Roles: </h3>
 			<button type="button"

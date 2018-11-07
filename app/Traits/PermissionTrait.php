@@ -16,7 +16,7 @@ trait PermissionTrait
         if (Auth::user()->id === 1) {
             return true;
         }
-        foreach (Auth::user()->roles as $rol) {
+        foreach (Auth::user()->rol as $rol) {
             if ($rol->id == 1) {
                 return true;
             }
@@ -26,7 +26,7 @@ trait PermissionTrait
 
     public function specialAccess()
     {
-        foreach (Auth::user()->roles as $rol) {
+        foreach (Auth::user()->rol as $rol) {
             if ($rol->special == 'all-access') return 1;
             if ($rol->special == 'no-access') return -1;
         }
@@ -39,7 +39,8 @@ trait PermissionTrait
     public function isHourToAccess()
     {
         $now = Carbon::now();
-        foreach (Auth::user()->roles as $rol) {
+        foreach (Auth::user()->rol as $rol) {
+            if ($rol->from_at == null && $rol->to_at == null) return true;
             $t_init = Carbon::parse($rol->from_at);
             $t_stop = Carbon::parse($rol->to_at);
             if ($now >= $t_init && $now <= $t_stop) return true;
@@ -53,9 +54,9 @@ trait PermissionTrait
     public function canActMod($module, $action)
     {
         return Auth::user()
-        ->permissions
-        ->where('module', '=', $module)
-        ->where('action', '=', $action)
+        ->permisos
+        ->where('modulo', '=', $module)
+        ->where('accion', '=', $action)
         ->first();
     }
 

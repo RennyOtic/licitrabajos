@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\ModelsTrait;
 
-class Oferta extends Model
+class Chat extends Model
 {
 	use SoftDeletes, ModelsTrait;
 
-	protected $table = 'oferta';
+	protected $table = 'chat';
 
     /**
      * The attributes that are mass assignable.
@@ -19,9 +19,8 @@ class Oferta extends Model
      */
     protected $fillable = [
     	'licitacion_id',
-    	'usuario_id',
-    	'propuesta',
-        'estatus_id',
+    	'persona_id',
+    	'empresa_id',
     ];
 
     /**
@@ -33,28 +32,19 @@ class Oferta extends Model
     	'created_at' , 'updated_at', 'deleted_at'
     ];
 
-    public function usuario()
+    public function empresa()
     {
         return $this->belongsTo(\App\Usuario::class);
     }
 
-    public function licitacion()
+    public function persona()
     {
-        return $this->belongsTo(Licitacion::class);
+        return $this->belongsTo(\App\Usuario::class);
     }
 
-    public function estatus()
+    public function mensaje()
     {
-        return $this->belongsTo(Estatus::class);
+        return $this->hasMany(Mensaje::class);
     }
 
-    public function color_status()
-    {
-        switch ($this->estatus_id) {
-            case 1: $color = 'info'; break;
-            case 2: $color = 'success'; break;
-            case 3: $color = 'danger'; break;
-        }
-        return $color;
-    }
 }

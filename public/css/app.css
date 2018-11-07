@@ -11674,3 +11674,9 @@ textarea {
   resize: none;
 }
 
+@media screen and (min-width: 992px) {
+  .rs_table {
+    overflow: hidden;
+  }
+}
+

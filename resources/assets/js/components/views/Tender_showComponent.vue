@@ -1,5 +1,5 @@
 <template>
-    <div class="box">
+    <div class="box box-primary">
         <div class="box-header text-center">
             <h3 class="box-title">Licitación: {{ data.nombre }}</h3>
             <b class="pull-right">Presupuesto: {{ data.precio_minimo }}$ - {{ data.precio_maximo }}$</b>
