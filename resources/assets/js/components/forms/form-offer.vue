@@ -7,7 +7,7 @@
         <div class="box-body">
             <div class="row">
                 <div class="col-md-3 text-center">
-                    <img :src="(data.imagen !== null) ? data.imagen : '/images/39295.png'" :alt="data.slug" class="img-responsive img-circle">
+                    <img :src="data.imagen" :alt="data.slug" class="img-responsive img-circle">
                 </div>
                 <div class="col-md-9">
                     <h3>Detalles:</h3>

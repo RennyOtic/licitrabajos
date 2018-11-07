@@ -29,6 +29,7 @@ class TendersController extends Controller
         ->select($select)
         ->paginate(request()->num?:5);
         $licitacion->each(function ($l) {
+            $l->imagen = $l->img();
             $l->desde = $l->created_at->diffForHumans();
             $l->hasta = $l->created_at->addDays($l->tiempo)->diffForHumans();
             $l->num_ofertas = $l->ofertas->count();
@@ -53,5 +54,12 @@ class TendersController extends Controller
         ]);
         Licitacion::findOrFail($request->id)
         ->update($data);
+    }
+
+    public function image(Request $request)
+    {
+        if ($request->hasFile('img')) {
+            return $url = $request->img->store('/tenders');
+        }
     }
 }

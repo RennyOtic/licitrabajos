@@ -2,7 +2,7 @@
 	<div>
 		<div class="col-md-2">
 			<a href="#" style="width: 120px">
-				<img :src="(data.imagen !== null) ? data.imagen : '/images/39295.png'" :alt="data.nombre" class="img-responsive img-circle" style="width: inherit;">
+				<img :src="data.imagen" :alt="data.nombre" class="img-responsive img-circle" style="width: inherit;height: 120px;">
 			</a>
 		</div>
 		<div class="col-md-8">

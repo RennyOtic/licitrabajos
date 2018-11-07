@@ -93,6 +93,7 @@ class MyTendersController extends Controller
         if ($licitacion->empresa != null) $licitacion->empresa->fullName = $licitacion->empresa->fullName();
         $offer = $licitacion->ofertas->where('usuario_id', \Auth::user()->id)->first();
         $licitacion->offer = optional($offer)->id;
+        $licitacion->imagen = $licitacion->img();
         $licitacion->propuesta = optional($offer)->propuesta;
         unset($licitacion->servicio, $licitacion->ofertas);
         $licitacion->servicio = $servicio;

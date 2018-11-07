@@ -66426,12 +66426,8 @@ var render = function() {
       _c("a", { staticStyle: { width: "120px" }, attrs: { href: "#" } }, [
         _c("img", {
           staticClass: "img-responsive img-circle",
-          staticStyle: { width: "inherit" },
-          attrs: {
-            src:
-              _vm.data.imagen !== null ? _vm.data.imagen : "/images/39295.png",
-            alt: _vm.data.nombre
-          }
+          staticStyle: { width: "inherit", height: "120px" },
+          attrs: { src: _vm.data.imagen, alt: _vm.data.nombre }
         })
       ])
     ]),
@@ -72827,6 +72823,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -72843,7 +72850,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   data: function data() {
     return {
       servicio: [],
-      entries: [{ label: 'Titulo', id: 'nombre', icon: 'fa fa-user' }, { label: 'Imagen', id: 'imagen', icon: 'fa fa-user', type: 'file', accept: "image/*" }],
+      entries: [{ label: 'Titulo', id: 'nombre', icon: 'fa fa-user' }],
       entries2: [{ label: 'Precio Mínimo', id: 'precio_minimo', icon: 'fa fa-user', type: 'number', min: 0 }, { label: 'Precio Maximo', id: 'precio_maximo', icon: 'fa fa-user', type: 'number', min: 0 }],
       msg: {
         nombre: 'Nombre de la Licitación.',
@@ -72865,21 +72872,30 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     });
   },
   methods: {
-    registrar: function registrar(el) {
+    img: function img(e) {
       var _this2 = this;
+
+      var data = new FormData();
+      data.append('img', e.target.files[0]);
+      axios.post('/tenders-img', data).then(function (response) {
+        _this2.formData.data.imagen = response.data;
+      });
+    },
+    registrar: function registrar(el) {
+      var _this3 = this;
 
       this.restoreMsg(this.msg);
       this.formData.data.servicio_id = this.select2_search(this.servicio, this.formData.data.servicio);
       if (this.formData.cond == 'plus') {
         axios.post(this.formData.url, this.formData.data).then(function (response) {
           toastr.success('Registro Exitoso');
-          _this2.$emit('input');
+          _this3.$emit('input');
           $('#mytender-form').modal('hide');
         });
       } else {
         axios.put(this.formData.url, this.formData.data).then(function (response) {
           toastr.success('Actualización Exitosa');
-          _this2.$emit('input');
+          _this3.$emit('input');
           $('#mytender-form').modal('hide');
         });
       }
@@ -72946,6 +72962,41 @@ var render = function() {
                         1
                       )
                     }),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-6" }, [
+                      _c("div", { staticClass: "form-group" }, [
+                        _c(
+                          "label",
+                          {
+                            staticClass: "control-label",
+                            attrs: { for: "imagen" }
+                          },
+                          [
+                            _c("span", { staticClass: "fa fa-img" }),
+                            _vm._v(" Imagen\n            ")
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c("input", {
+                          staticClass: "form-control",
+                          attrs: {
+                            id: "imagen",
+                            type: "file",
+                            accept: "image/*"
+                          },
+                          on: { change: _vm.img }
+                        }),
+                        _vm._v(" "),
+                        _c(
+                          "small",
+                          {
+                            staticClass: "form-text text-muted",
+                            attrs: { id: "imagenHelp" }
+                          },
+                          [_vm._v(_vm._s(_vm.msg.imagen))]
+                        )
+                      ])
+                    ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "col-md-12" }, [
                       _c("div", { staticClass: "form-group" }, [
@@ -73677,13 +73728,7 @@ var render = function() {
         _c("div", { staticClass: "col-md-3 text-center" }, [
           _c("img", {
             staticClass: "img-responsive img-circle",
-            attrs: {
-              src:
-                _vm.data.imagen !== null
-                  ? _vm.data.imagen
-                  : "/images/39295.png",
-              alt: _vm.data.slug
-            }
+            attrs: { src: _vm.data.imagen, alt: _vm.data.slug }
           })
         ]),
         _vm._v(" "),

@@ -17,6 +17,17 @@
             :msg="msg[input.id]"></rs-input>
           </div>
 
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="imagen" class="control-label">
+                <span class="fa fa-img"></span> Imagen
+              </label>
+              <input id="imagen"
+              class="form-control" type="file" accept="image/*" @change="img">
+              <small id="imagenHelp" class="form-text text-muted">{{ msg.imagen }}</small>
+            </div>
+          </div>
+
           <div class="col-md-12">
             <div class="form-group">
               <label for="descripcion" class="control-label">
@@ -86,7 +97,6 @@
         servicio: [],
         entries: [
         {label: 'Titulo', id: 'nombre', icon: 'fa fa-user'},
-        {label: 'Imagen', id: 'imagen', icon: 'fa fa-user', type: 'file', accept:"image/*"},
         ],
         entries2: [
         {label: 'Precio Mínimo', id: 'precio_minimo', icon: 'fa fa-user', type: 'number', min: 0},
@@ -108,6 +118,14 @@
       .then(response => {this.servicio = response.data.servicio;});
     },
     methods: {
+      img: function (e) {
+        let data = new  FormData();
+        data.append('img', e.target.files[0]);
+        axios.post('/tenders-img', data)
+        .then(response => {
+          this.formData.data.imagen = response.data;
+        });
+      },
       registrar: function (el) {
         this.restoreMsg(this.msg);
         this.formData.data.servicio_id = this.select2_search(this.servicio, this.formData.data.servicio);

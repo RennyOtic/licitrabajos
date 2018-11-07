@@ -30,7 +30,7 @@
         },
         methods: {
             updateValue: function (value) {
-                this.$emit('input', value)
+                this.$emit('input', value);
             }
         }
     }

@@ -56,6 +56,7 @@ Route::group(['middleware' => ['auth', 'onlyAjax']], function () {
 
     // Licitaciones Routes...
     Route::resource('tenders', 'TendersController')->only(['index', 'store']);//->except(['create', 'edit', 'store']);
+    Route::post('tenders-img', 'TendersController@image');
 
     // Mis Licitaciones Routes...
     Route::resource('mytenders', 'MyTendersController')->except(['create', 'edit']);

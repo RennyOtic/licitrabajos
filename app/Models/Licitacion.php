@@ -61,4 +61,9 @@ class Licitacion extends Model
     {
         return $this->hasMany(Oferta::class);
     }
+
+    public function img()
+    {
+        return ($this->imagen && is_readable(public_path('storage/' . $this->imagen))) ? '/storage/' . $this->imagen: '/images/39295.png';
+    }
 }
