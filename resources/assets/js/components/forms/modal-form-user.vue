@@ -62,7 +62,12 @@
         {label: 'Apellido', id: 'apellido', icon: 'fa fa-user-o'},
         {label: 'Confirmación de Contraseña', id: 'password_confirmation', icon: 'fa fa-lock', type: 'password'},
         {label: 'Cédula', id: 'identificacion', icon: 'fa fa-id-card-o'},
-        {label: 'E-Mail', id: 'correo', icon: 'fa fa-envelope'},
+        {label: 'E-Mail', id: 'correo', icon: 'fa fa-envelope', type: 'email'},
+        {label: 'Pais', id: 'pais', icon: 'fa fa-envelope'},
+        {label: 'Municipio', id: 'municipio', icon: 'fa fa-envelope'},
+        {label: 'Sector', id: 'sector', icon: 'fa fa-envelope'},
+        {label: 'Calle / Avenida', id: 'calle_avenida', icon: 'fa fa-envelope'},
+        {label: 'Código Postal', id: 'codigo_postal', icon: 'fa fa-envelope'},
         ],
         roles: [],
         msg: {
@@ -73,6 +78,11 @@
           password: 'Contraseña.',
           password_confirmation: 'Confirmación de Contraseña.',
           roles: 'Rol a desempeñar.',
+          pais: 'Pais en donde reside',
+          municipio: 'Nombre del municipio',
+          sector: 'Sector donde vive',
+          calle_avenida: 'Calle o Avenida',
+          codigo_postal: 'Código Postal',
         }
       };
     },

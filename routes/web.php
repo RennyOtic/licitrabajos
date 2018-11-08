@@ -78,6 +78,7 @@ Route::group(['middleware' => ['auth', 'onlyAjax']], function () {
         Route::get('profile', 'ProfileController@show');
         Route::post('change-pass', 'ProfileController@editPassword');
         Route::post('update-user', 'ProfileController@editUser');
+        Route::post('update-address', 'ProfileController@editAddress');
     });
 
     Route::post('admin/app', 'RouteController@canPermission');

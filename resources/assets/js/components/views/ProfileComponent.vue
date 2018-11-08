@@ -24,6 +24,7 @@
                 <ul class="nav nav-tabs">
                     <li class="active"><a href="#settings" data-toggle="tab" aria-expanded="true">Configuraciones</a></li>
                     <li><a href="#changePass" data-toggle="tab" aria-expanded="true">Cambio de Contraseña</a></li>
+                    <li><a href="#address" data-toggle="tab" aria-expanded="true">Dirección</a></li>
                 </ul>
                 <div class="tab-content">
                     <div id="settings" class="tab-pane active">
@@ -66,6 +67,50 @@
                                 <label for="imagen" class="col-sm-2 control-label">Area Servicio:</label>
                                 <div class="col-sm-10">
                                     <rs-multiselect v-model="user.servicios" :options="select2_options(services)" :multiple="true" :hide-selected="true" :close-on-select="false"></rs-multiselect>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <button type="submit" class="btn btn-success"> Guardar</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div id="address" class="tab-pane">
+                        <form class="form-horizontal" enctype="multipart/form-data" @submit.prevent="updateAddress">
+                            <div class="form-group">
+                                <label for="pais" class="col-sm-2 control-label">Pais:</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="pais" placeholder="Chile" v-model="user.pais">
+                                    <small id="paisHelp" class="form-text"></small>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="municipio" class="col-sm-2 control-label">Municipio:</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="municipio" placeholder="Región Metropolitana" v-model="user.municipio">
+                                    <small id="municipioHelp" class="form-text"></small>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="sector" class="col-sm-2 control-label">Sector:</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="sector" placeholder="Independencia" v-model="user.sector">
+                                    <small id="sectorHelp" class="form-text"></small>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="calle_avenida" class="col-sm-2 control-label">Calle / Avenida:</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="calle_avenida" placeholder="Santos Dumont" v-model="user.calle_avenida">
+                                    <small id="calle_avenidaHelp" class="form-text"></small>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="codigo_postal" class="col-sm-2 control-label">Código Postal:</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="codigo_postal" placeholder="999" v-model="user.codigo_postal">
+                                    <small id="codigo_postalHelp" class="form-text"></small>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -151,6 +196,16 @@
                     this.pass.password_confirmation = '';
                     toastr.success('Contraseña Actualizada');
                 });
+            },
+            updateAddress() {
+                axios.post('/update-address', {
+                    pais: this.user.pais,
+                    municipio: this.user.municipio,
+                    sector: this.user.sector,
+                    calle_avenida: this.user.calle_avenida,
+                    codigo_postal: this.user.codigo_postal,
+                })
+                .then(response => {toastr.success('Datos Actualizados');});
             },
             updateUser() {
                 var data = new  FormData();

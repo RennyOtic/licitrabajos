@@ -64678,6 +64678,51 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -64720,6 +64765,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 _this2.pass.password = '';
                 _this2.pass.password_confirmation = '';
                 toastr.success('Contraseña Actualizada');
+            });
+        },
+        updateAddress: function updateAddress() {
+            axios.post('/update-address', {
+                pais: this.user.pais,
+                municipio: this.user.municipio,
+                sector: this.user.sector,
+                calle_avenida: this.user.calle_avenida,
+                codigo_postal: this.user.codigo_postal
+            }).then(function (response) {
+                toastr.success('Datos Actualizados');
             });
         },
         updateUser: function updateUser() {
@@ -65057,6 +65113,249 @@ var render = function() {
             ]
           ),
           _vm._v(" "),
+          _c("div", { staticClass: "tab-pane", attrs: { id: "address" } }, [
+            _c(
+              "form",
+              {
+                staticClass: "form-horizontal",
+                attrs: { enctype: "multipart/form-data" },
+                on: {
+                  submit: function($event) {
+                    $event.preventDefault()
+                    _vm.updateAddress($event)
+                  }
+                }
+              },
+              [
+                _c("div", { staticClass: "form-group" }, [
+                  _c(
+                    "label",
+                    {
+                      staticClass: "col-sm-2 control-label",
+                      attrs: { for: "pais" }
+                    },
+                    [_vm._v("Pais:")]
+                  ),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-sm-10" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.user.pais,
+                          expression: "user.pais"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { type: "text", id: "pais", placeholder: "Chile" },
+                      domProps: { value: _vm.user.pais },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.user, "pais", $event.target.value)
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("small", {
+                      staticClass: "form-text",
+                      attrs: { id: "paisHelp" }
+                    })
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c(
+                    "label",
+                    {
+                      staticClass: "col-sm-2 control-label",
+                      attrs: { for: "municipio" }
+                    },
+                    [_vm._v("Municipio:")]
+                  ),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-sm-10" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.user.municipio,
+                          expression: "user.municipio"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: {
+                        type: "text",
+                        id: "municipio",
+                        placeholder: "Región Metropolitana"
+                      },
+                      domProps: { value: _vm.user.municipio },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.user, "municipio", $event.target.value)
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("small", {
+                      staticClass: "form-text",
+                      attrs: { id: "municipioHelp" }
+                    })
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c(
+                    "label",
+                    {
+                      staticClass: "col-sm-2 control-label",
+                      attrs: { for: "sector" }
+                    },
+                    [_vm._v("Sector:")]
+                  ),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-sm-10" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.user.sector,
+                          expression: "user.sector"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: {
+                        type: "text",
+                        id: "sector",
+                        placeholder: "Independencia"
+                      },
+                      domProps: { value: _vm.user.sector },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.user, "sector", $event.target.value)
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("small", {
+                      staticClass: "form-text",
+                      attrs: { id: "sectorHelp" }
+                    })
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c(
+                    "label",
+                    {
+                      staticClass: "col-sm-2 control-label",
+                      attrs: { for: "calle_avenida" }
+                    },
+                    [_vm._v("Calle / Avenida:")]
+                  ),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-sm-10" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.user.calle_avenida,
+                          expression: "user.calle_avenida"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: {
+                        type: "text",
+                        id: "calle_avenida",
+                        placeholder: "Santos Dumont"
+                      },
+                      domProps: { value: _vm.user.calle_avenida },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.user,
+                            "calle_avenida",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("small", {
+                      staticClass: "form-text",
+                      attrs: { id: "calle_avenidaHelp" }
+                    })
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c(
+                    "label",
+                    {
+                      staticClass: "col-sm-2 control-label",
+                      attrs: { for: "codigo_postal" }
+                    },
+                    [_vm._v("Código Postal:")]
+                  ),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-sm-10" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.user.codigo_postal,
+                          expression: "user.codigo_postal"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: {
+                        type: "text",
+                        id: "codigo_postal",
+                        placeholder: "999"
+                      },
+                      domProps: { value: _vm.user.codigo_postal },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.user,
+                            "codigo_postal",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("small", {
+                      staticClass: "form-text",
+                      attrs: { id: "codigo_postalHelp" }
+                    })
+                  ])
+                ]),
+                _vm._v(" "),
+                _vm._m(2)
+              ]
+            )
+          ]),
+          _vm._v(" "),
           _c("div", { staticClass: "tab-pane", attrs: { id: "changePass" } }, [
             _c(
               "form",
@@ -65206,7 +65505,7 @@ var render = function() {
                   ])
                 ]),
                 _vm._v(" "),
-                _vm._m(2)
+                _vm._m(3)
               ]
             )
           ])
@@ -65246,6 +65545,34 @@ var staticRenderFns = [
             }
           },
           [_vm._v("Cambio de Contraseña")]
+        )
+      ]),
+      _vm._v(" "),
+      _c("li", [
+        _c(
+          "a",
+          {
+            attrs: {
+              href: "#address",
+              "data-toggle": "tab",
+              "aria-expanded": "true"
+            }
+          },
+          [_vm._v("Dirección")]
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "form-group" }, [
+      _c("div", { staticClass: "col-sm-offset-2 col-sm-10" }, [
+        _c(
+          "button",
+          { staticClass: "btn btn-success", attrs: { type: "submit" } },
+          [_vm._v(" Guardar")]
         )
       ])
     ])
@@ -66739,7 +67066,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   props: ['formData'],
   data: function data() {
     return {
-      entries: [{ label: 'Nombre', id: 'nombre', icon: 'fa fa-user' }, { label: 'Contraseña', id: 'password', icon: 'fa fa-lock', type: 'password' }, { label: 'Apellido', id: 'apellido', icon: 'fa fa-user-o' }, { label: 'Confirmación de Contraseña', id: 'password_confirmation', icon: 'fa fa-lock', type: 'password' }, { label: 'Cédula', id: 'identificacion', icon: 'fa fa-id-card-o' }, { label: 'E-Mail', id: 'correo', icon: 'fa fa-envelope' }],
+      entries: [{ label: 'Nombre', id: 'nombre', icon: 'fa fa-user' }, { label: 'Contraseña', id: 'password', icon: 'fa fa-lock', type: 'password' }, { label: 'Apellido', id: 'apellido', icon: 'fa fa-user-o' }, { label: 'Confirmación de Contraseña', id: 'password_confirmation', icon: 'fa fa-lock', type: 'password' }, { label: 'Cédula', id: 'identificacion', icon: 'fa fa-id-card-o' }, { label: 'E-Mail', id: 'correo', icon: 'fa fa-envelope', type: 'email' }, { label: 'Pais', id: 'pais', icon: 'fa fa-envelope' }, { label: 'Municipio', id: 'municipio', icon: 'fa fa-envelope' }, { label: 'Sector', id: 'sector', icon: 'fa fa-envelope' }, { label: 'Calle / Avenida', id: 'calle_avenida', icon: 'fa fa-envelope' }, { label: 'Código Postal', id: 'codigo_postal', icon: 'fa fa-envelope' }],
       roles: [],
       msg: {
         nombre: 'Nombre del usuario.',
@@ -66748,7 +67075,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         correo: 'Correo electronico.',
         password: 'Contraseña.',
         password_confirmation: 'Confirmación de Contraseña.',
-        roles: 'Rol a desempeñar.'
+        roles: 'Rol a desempeñar.',
+        pais: 'Pais en donde reside',
+        municipio: 'Nombre del municipio',
+        sector: 'Sector donde vive',
+        calle_avenida: 'Calle o Avenida',
+        codigo_postal: 'Código Postal'
       }
     };
   },

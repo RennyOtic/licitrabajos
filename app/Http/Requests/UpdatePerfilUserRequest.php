@@ -27,7 +27,7 @@ class UpdatePerfilUserRequest extends FormRequest
             'correo' => 'required|email|unique1:usuario,email',
             'apellido' => 'required|alpha_space|min:3|max:20',
             'nombre' => 'required|alpha_space|min:3|max:20',
-            'identificacion' => 'required|numeric|exr_ced|unique1:usuario,num_id'
+            'identificacion' => 'required|numeric|exr_ced|unique1:usuario,num_id',
         ];
     }
 }
