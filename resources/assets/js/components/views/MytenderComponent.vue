@@ -63,7 +63,7 @@
                     { title: 'Detalles', field: 'descripcion', sortable: true },
                     { title: 'Empleado', field: 'empresa_id', sortable: true },
                     { title: 'Estatus', field: 'status_id', sortable: true },
-                    { title: 'Evaluación', field: 'evaluacion', sortable: true },
+                    { title: 'Evaluación', field: 'stars', sortable: true },
                     { title: 'Propuestas', field: 'propuestas', class: 'text-center' },
                     ]
                 }

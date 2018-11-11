@@ -44,6 +44,7 @@
                     { title: 'Trabajador', field: 'nombre'},
                     { title: 'Detalles', field: 'propuesta', sortable: true },
                     { title: 'Estatus', field: 'estatus_id', sortable: true },
+                    { title: 'Reputación', field: 'reputacion' },
                     { title: 'Fecha', field: 'date' },
                     { title: 'Hora', field: 'hour' },
                     ]

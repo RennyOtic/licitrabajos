@@ -45,6 +45,17 @@ class OffersController extends Controller
                 $o->nombre = $o->usuario->fullName();
             }
             $o->estatus_id = optional($o->estatus)->nombre;
+            $o->reputacion = '';
+            $divisor = $o->usuario->licitaciones2->where('evaluacion', '>', 0)->count();
+            $dividendo = $o->usuario->licitaciones2->where('evaluacion', '>', 0)->sum('evaluacion');
+            if ($divisor == 0) {
+                    $o->reputacion = 'No ha sido Evaluado';
+            } else {
+                    $reputacion = $dividendo / $divisor;
+                    for ($i = 0; $i < 5; $i++) { 
+                        $o->reputacion .= "<i class='glyphicon ".(($reputacion > $i) ? 'glyphicon-star' : 'glyphicon-star-empty')."'></i>";
+                    }
+            }
             $o->date = $o->created_at->format('d-m-Y');
             $o->hour = $o->created_at->format('H:i:s');
             unset($o->usuario, $o->licitacion);
@@ -124,6 +135,7 @@ class OffersController extends Controller
     {
         $oferta = Oferta::findOrFail($request->id);
         $licitacion = Licitacion::findOrFail($oferta->licitacion_id);
+        if ($licitacion->evaluacion) return response()->json(['msg' => 'Ye fue evaluada esta licitación'], 401);
         $licitacion->update(['empresa_id' => null, 'status_id' => 1]);
         if ($request->estatus == 2) {
             $licitacion->ofertas->each->update(['estatus_id' => 3]);

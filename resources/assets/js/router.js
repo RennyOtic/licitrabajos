@@ -98,8 +98,6 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
 	let permission = to.name;
-	if (to.path == '/') {next(); return;}
-	if (to.path == '/dashboard') {next(); return;}
 	if (location.href.indexOf('/login') > 0) return;
 	if (location.href.indexOf('/registro') > 0) return;
 	if (permission == undefined) {next('error'); return;}
@@ -113,6 +111,13 @@ router.beforeEach((to, from, next) => {
 		return;
 	}
 	setTimeout(() => {
+		if (to.path == '/') {
+			setTimeout(() => {
+				if (this.a.app.can('mytender.store')) next('/mis-licitaciones');
+				if (this.a.app.can('offer.store')) next('/ofertas');
+			}, 10)
+			return;
+		}
 		if (this.a.app.can(permission)) {
 			next(); return;
 		} else if (permission.indexOf('-') != -1) {

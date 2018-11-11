@@ -35,6 +35,7 @@ class UserStoreRequest extends FormRequest
             'municipio' => 'required|string|min:3|max:100',
             'pais' => 'required|string|min:3|max:30',
             'sector' => 'required|string|min:3|max:100',
+            'rol' => 'required|numeric',
         ];
     }
 

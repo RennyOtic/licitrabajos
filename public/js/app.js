@@ -63413,12 +63413,6 @@ var router = new __WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]({
 
 router.beforeEach(function (to, from, next) {
 	var permission = to.name;
-	if (to.path == '/') {
-		next();return;
-	}
-	if (to.path == '/dashboard') {
-		next();return;
-	}
 	if (location.href.indexOf('/login') > 0) return;
 	if (location.href.indexOf('/registro') > 0) return;
 	if (permission == undefined) {
@@ -63429,6 +63423,13 @@ router.beforeEach(function (to, from, next) {
 		return;
 	}
 	setTimeout(function () {
+		if (to.path == '/') {
+			setTimeout(function () {
+				if (_this.a.app.can('mytender.store')) next('/mis-licitaciones');
+				if (_this.a.app.can('offer.store')) next('/ofertas');
+			}, 10);
+			return;
+		}
 		if (_this.a.app.can(permission)) {
 			next();return;
 		} else if (permission.indexOf('-') != -1) {
@@ -64723,6 +64724,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 
@@ -64756,6 +64762,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     methods: {
         getImage: function getImage(e) {
             this.user.image = e.target.files[0];
+        },
+        notifications: function notifications() {
+            axios.post('/change-notifications', { notification: this.user.notificaciones });
         },
         changePass: function changePass() {
             var _this2 = this;
@@ -64840,6 +64849,51 @@ var render = function() {
           _vm._v(" "),
           _c("p", { staticClass: "text-muted text-center" }, [
             _c("b", [_vm._v("Miembro desde: " + _vm._s(_vm.user.miembro))])
+          ]),
+          _vm._v(" "),
+          _c("p", { staticClass: "text-muted text-center" }, [
+            _c("b", [_vm._v("Recibir Notificaciones:")]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.user.notificaciones,
+                  expression: "user.notificaciones"
+                }
+              ],
+              attrs: { type: "checkbox" },
+              domProps: {
+                checked: Array.isArray(_vm.user.notificaciones)
+                  ? _vm._i(_vm.user.notificaciones, null) > -1
+                  : _vm.user.notificaciones
+              },
+              on: {
+                change: [
+                  function($event) {
+                    var $$a = _vm.user.notificaciones,
+                      $$el = $event.target,
+                      $$c = $$el.checked ? true : false
+                    if (Array.isArray($$a)) {
+                      var $$v = null,
+                        $$i = _vm._i($$a, $$v)
+                      if ($$el.checked) {
+                        $$i < 0 && (_vm.user.notificaciones = $$a.concat([$$v]))
+                      } else {
+                        $$i > -1 &&
+                          (_vm.user.notificaciones = $$a
+                            .slice(0, $$i)
+                            .concat($$a.slice($$i + 1)))
+                      }
+                    } else {
+                      _vm.$set(_vm.user, "notificaciones", $$c)
+                    }
+                  },
+                  _vm.notifications
+                ]
+              }
+            })
           ])
         ])
       ])
@@ -72988,7 +73042,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 data: {}
             },
             tabla: {
-                columns: [{ title: 'Titulo', field: 'nombre', sortable: true }, { title: 'Detalles', field: 'descripcion', sortable: true }, { title: 'Empleado', field: 'empresa_id', sortable: true }, { title: 'Estatus', field: 'status_id', sortable: true }, { title: 'Evaluación', field: 'evaluacion', sortable: true }, { title: 'Propuestas', field: 'propuestas', class: 'text-center' }]
+                columns: [{ title: 'Titulo', field: 'nombre', sortable: true }, { title: 'Detalles', field: 'descripcion', sortable: true }, { title: 'Empleado', field: 'empresa_id', sortable: true }, { title: 'Estatus', field: 'status_id', sortable: true }, { title: 'Evaluación', field: 'stars', sortable: true }, { title: 'Propuestas', field: 'propuestas', class: 'text-center' }]
             }
         };
     },
@@ -73808,7 +73862,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return {
             id: null,
             tabla: {
-                columns: [{ title: 'Licitación', field: 'licitacion_id', sortable: true }, { title: 'Propuesta', field: 'propuesta', sortable: true }, { title: 'Estatus', field: 'estatus_id', sortable: true }]
+                columns: [{ title: 'Licitación', field: 'licitacion_id', sortable: true }, { title: 'Propuesta', field: 'propuesta', sortable: true }, { title: 'Evaluación', field: 'evaluacion', sortable: true }, { title: 'Estatus', field: 'estatus_id', sortable: true }]
             }
         };
     }
@@ -74310,7 +74364,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 }
             },
             tabla: {
-                columns: [{ title: 'Trabajador', field: 'nombre' }, { title: 'Detalles', field: 'propuesta', sortable: true }, { title: 'Estatus', field: 'estatus_id', sortable: true }, { title: 'Fecha', field: 'date' }, { title: 'Hora', field: 'hour' }]
+                columns: [{ title: 'Trabajador', field: 'nombre' }, { title: 'Detalles', field: 'propuesta', sortable: true }, { title: 'Estatus', field: 'estatus_id', sortable: true }, { title: 'Reputación', field: 'reputacion' }, { title: 'Fecha', field: 'date' }, { title: 'Hora', field: 'hour' }]
             }
         };
     },

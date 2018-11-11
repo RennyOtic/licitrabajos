@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\User;
+use App\Usuario;
+use App\Models\Permisologia\Rol;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -41,6 +42,17 @@ class RegisterController extends Controller
     }
 
     /**
+     * Show the application registration form.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function showRegistrationForm()
+    {
+        $roles = Rol::whereIn('id', [2, 3])->get();
+        return view('auth.register', compact('roles'));
+    }
+
+    /**
      * Get a validator for an incoming registration request.
      *
      * @param  array  $data
@@ -49,17 +61,19 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'email'     => 'required|email|min:8|max:35|unique:users|DomainValid',
-            'last_name' => 'required|alfa_space|min:3|max:15',
-            'name'      => 'required|alfa_space|min:3|max:15',
-            'num_id'    => 'required|numeric|digits_between:6,8|exr_ced|unique:users',
+            'correo'     => 'required|email|min:8|max:35|unique:usuario',
+            'apellido' => 'required|alpha_space|min:3|max:15',
+            'nombre'      => 'required|alpha_space|min:3|max:15',
+            'identificacion'    => 'required|numeric|digits_between:6,8|unique:usuario',
             'password'  => 'required|string|min:6|max:20|confirmed',
+            'calle_avenida' => 'required|string|min:3|max:100',
+            'codigo_postal' => 'required|numeric',
+            'municipio' => 'required|string|min:3|max:100',
+            'pais' => 'required|string|min:3|max:30',
+            'sector' => 'required|string|min:3|max:100',
         ],[],[
-            'email'     => 'correo',
-            'last_name' => 'apellido',
-            'name'      => 'nombre',
-            'num_id'    => 'cédula',
-            'password'  => 'contraseña',
+            'password' => 'contraseña',
+            'identificacion' => 'identificación'
         ]);
     }
 
@@ -71,12 +85,20 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
-            'last_name' => $data['last_name'],
-            'num_id' => $data['num_id'],
-            'email' => $data['email'],
+        $user = Usuario::create([
+            'nombre' => $data['nombre'],
+            'apellido' => $data['apellido'],
+            'identificacion' => $data['identificacion'],
+            'correo' => $data['correo'],
             'password' => Hash::make($data['password']),
+            'calle_avenida' => $data['calle_avenida'],
+            'codigo_postal' => $data['codigo_postal'],
+            'municipio' => $data['municipio'],
+            'pais' => $data['pais'],
+            'sector' => $data['sector'],
         ]);
+        $user->rol()->attach($data['rol']);
+        $user->assignPermissionsOneUser([$data['rol']]);
+        return $user;
     }
 }

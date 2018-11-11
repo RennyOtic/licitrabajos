@@ -28,7 +28,14 @@ class MyOffertsController extends Controller
         ->paginate(request()->num?:10);
         $ofertas->each(function ($o) {
             $o->licitacion_id = $o->licitacion->nombre;
+            $o->evaluacion = '';
+            if ($o->licitacion->evaluacion != null) {
+                for ($i = 0; $i < 5; $i++) { 
+                    $o->evaluacion .= "<i class='glyphicon ".(($o->licitacion->evaluacion > $i) ? 'glyphicon-star' : 'glyphicon-star-empty')."'></i>";
+                }
+            }
             $o->estatus_id = '<span class="badge label-'.$o->color_status().'">' . $o->estatus->nombre . '</span>';
+
             unset($o->licitacion, $o->estatus);
         });
         return $this->dataWithPagination($ofertas);

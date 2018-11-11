@@ -73,4 +73,10 @@ class ProfileController extends Controller
             'sector' => 'required|string|min:3|max:100',
         ]));
     }
+
+    public function notifications(Request $request)
+    {
+        $data = $request->validate(['notification' => 'required|boolean']);
+        \Auth::user()->update(['notificaciones' => $data['notification']]);
+    }
 }

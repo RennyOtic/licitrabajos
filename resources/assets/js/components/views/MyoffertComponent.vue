@@ -31,6 +31,7 @@
                     columns: [
                     { title: 'Licitación', field: 'licitacion_id', sortable: true },
                     { title: 'Propuesta', field: 'propuesta', sortable: true },
+                    { title: 'Evaluación', field: 'evaluacion', sortable: true },
                     { title: 'Estatus', field: 'estatus_id', sortable: true },
                     ]
                 }

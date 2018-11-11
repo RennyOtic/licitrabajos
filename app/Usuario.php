@@ -29,6 +29,7 @@ class Usuario extends Authenticatable
         'sector',
         'calle_avenida',
         'codigo_postal',
+        'notificaciones',
     ];
 
     /**

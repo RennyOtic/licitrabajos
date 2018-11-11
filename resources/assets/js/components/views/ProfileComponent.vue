@@ -15,6 +15,11 @@
 
                     <p class="text-muted text-center"><b>Miembro desde: {{ user.miembro }}</b></p>
 
+                    <p class="text-muted text-center">
+                        <b>Recibir Notificaciones:</b>
+                        <input type="checkbox" v-model="user.notificaciones" @change="notifications">
+                    </p>
+
                 </div>
             </div>
         </div>
@@ -187,6 +192,9 @@
         methods: {
             getImage(e){
                 this.user.image = e.target.files[0];
+            },
+            notifications() {
+                axios.post('/change-notifications', { notification: this.user.notificaciones });
             },
             changePass() {
                 axios.post('change-pass', this.pass)

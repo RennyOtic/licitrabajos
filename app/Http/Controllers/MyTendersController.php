@@ -40,12 +40,15 @@ class MyTendersController extends Controller
             ->first();
             $l->empresa_id = optional($l->empresa)->fullName();
             if ($chat) $l->empresa_id = '<a href="/chat/' . $chat->id . '">' . $l->empresa_id . '</a>';
+            $l->stars = '';
             if ($l->empresa_id && $l->evaluacion == '') {
-                $l->evaluacion = '<a href="/licitacion/' . $l->id . '">Evaluar</a>';
+                $l->stars = '<a href="/licitacion/' . $l->id . '">Evaluar</a>';
             } elseif ($l->evaluacion == null) {
-                $l->evaluacion = 'No Evaluado';
+                $l->stars = 'No Evaluado';
             } else {
-                $l->evaluacion = 'No Evaluado';
+                for ($i = 0; $i < 5; $i++) { 
+                    $l->stars .= "<i class='glyphicon ".(($l->evaluacion > $i) ? 'glyphicon-star' : 'glyphicon-star-empty')."'></i>";
+                }
             }
             $l->desde = $l->created_at->diffForHumans();
             unset($l->status, $l->empresa, $l->ofertas);
@@ -75,7 +78,16 @@ class MyTendersController extends Controller
         $data['slug'] = str_replace(' ', '-', $data['nombre']);
         $slug = Licitacion::where('slug', '=', $data['slug'])->count();
         if ($slug > 0) $data['slug'] .= '-' . $slug;
-        Licitacion::create($data);
+        $licitacion = Licitacion::create($data);
+
+        $users = \App\Usuario::get();
+        foreach ($users->where('notificaciones', 1) as $u) {
+            if ($u->servicios->where('id', $licitacion->servicio_id)->count()) {
+                if ($u->rol->where('id', 2)->count()) {
+                    \Mail::to($u->correo)->send(new \App\Mail\CreateNotification($licitacion));
+                }
+            }
+        }
     }
 
     /**

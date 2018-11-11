@@ -17,6 +17,7 @@ class CreateUsuariosTable extends Migration
             $table->increments('id');
             $table->string('nombre');
             $table->string('apellido');
+            $table->boolean('notificaciones')->default(true);
             $table->integer('identificacion')->unsigned()->unique();
             $table->string('correo', 50)->unique();
             $table->string('password')->nullable();
