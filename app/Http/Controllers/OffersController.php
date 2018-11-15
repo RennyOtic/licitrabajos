@@ -147,11 +147,12 @@ class OffersController extends Controller
                 $chat->update(['licitacion_id' => $licitacion->persona_id]);
             } else {
                 Chat::create([
-                    'licitacion_id' => $licitacion->persona_id,
+                    'licitacion_id' => $licitacion->id,
                     'persona_id' => $licitacion->persona_id,
                     'empresa_id' => $oferta->usuario_id
                 ]);
             }
+            \Mail::to($oferta->usuario->correo)->send(new \App\Mail\ProyectoAdjudicado($licitacion));
         }
         $oferta->update(['estatus_id' => $request->estatus]);
     }

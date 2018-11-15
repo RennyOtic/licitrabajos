@@ -16,7 +16,7 @@
 				<p>Area de Trabajo: <b>{{ $licitacion->servicio->nombre }}</b>.</p>
 			</div>
 			<div class="text-center">
-				<a href="{{ url('/oferta/' . $licitacion->id) }}" class="btn btn-primary" style="font-size: 25px">¡OFERTAR!</a>
+				<a href="{{ url('/oferta/' . $licitacion->id) }}" class="btn btn-primary" style="font-size: 25px;color: #FFF">¡OFERTAR!</a>
 			</div>
 		</div>
 	</div>

@@ -189,6 +189,14 @@
                 this.services = response.data.servicio;
             });
         },
+        mounted() {
+            navigator.geolocation.getCurrentPosition((position) => {
+                this.user.longitude = position.coords.longitude;
+                this.user.latitude = position.coords.latitude;
+            }, function () {
+                // alert('Debe activar la localización para un mejor desempeño en la plataforma');
+            });
+        },
         methods: {
             getImage(e){
                 this.user.image = e.target.files[0];

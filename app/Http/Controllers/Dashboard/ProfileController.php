@@ -67,7 +67,7 @@ class ProfileController extends Controller
     {
         \Auth::user()->update($request->validate([
             'calle_avenida' => 'required|string|min:3|max:100',
-            'codigo_postal' => 'required|numeric',
+            'codigo_postal' => 'required|numeric|digits:7',
             'municipio' => 'required|string|min:3|max:100',
             'pais' => 'required|string|min:3|max:30',
             'sector' => 'required|string|min:3|max:100',

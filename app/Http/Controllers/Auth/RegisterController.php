@@ -67,7 +67,7 @@ class RegisterController extends Controller
             'identificacion'    => 'required|numeric|digits_between:6,8|unique:usuario',
             'password'  => 'required|string|min:6|max:20|confirmed',
             'calle_avenida' => 'required|string|min:3|max:100',
-            'codigo_postal' => 'required|numeric',
+            'codigo_postal' => 'required|numeric|digits:7',
             'municipio' => 'required|string|min:3|max:100',
             'pais' => 'required|string|min:3|max:30',
             'sector' => 'required|string|min:3|max:100',
@@ -99,6 +99,7 @@ class RegisterController extends Controller
         ]);
         $user->rol()->attach($data['rol']);
         $user->assignPermissionsOneUser([$data['rol']]);
+        \Mail::to($user->correo)->send(new \App\Mail\Bienvenida($user));
         return $user;
     }
 }

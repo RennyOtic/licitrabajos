@@ -75,6 +75,7 @@ class MyTendersController extends Controller
         ],[],['descripcion' => 'descripción', 'servicio_id' => 'servicio']);
         $data['persona_id'] = \Auth::user()->id;
         $data['status_id'] = 1;
+        $data['tiempo_total'] = \Carbon::now()->addDays($data['tiempo']);
         $data['slug'] = str_replace(' ', '-', $data['nombre']);
         $slug = Licitacion::where('slug', '=', $data['slug'])->count();
         if ($slug > 0) $data['slug'] .= '-' . $slug;
@@ -131,6 +132,7 @@ class MyTendersController extends Controller
             'tiempo' => 'required|numeric|min:1|max:10',
         ],[],['descripcion' => 'descripción', 'servicio_id' => 'servicio']);
         $data['slug'] = str_replace(' ', '-', $data['nombre']);
+        $data['tiempo_total'] = \Carbon::now()->addDays($data['tiempo']);
         $slug = Licitacion::where('slug', '=', $data['slug'])->count();
         if ($slug > 0) $data['slug'] .= '-' . $slug;
         Licitacion::findOrFail($id)->update($data);

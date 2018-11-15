@@ -16,17 +16,20 @@
         }
         .wrapper {
         	width: 700px;
+            overflow: hidden;
         	margin: 0 auto;
+            border-radius: 10px;
+        }
+        .row {
+            width: 100%;
+            margin-bottom: 15px;
+            clear: both;
+            display: table;
+            content: " ";
         }
         header, footer {
             background-color: #ebebeb;
-        }
-        .row {
-        	width: 100%;
-        	margin-bottom: 15px;
-        	clear: both;
-        	display: table;
-        	content: " ";
+            padding: 20px;
         }
         .d-inline {display: inline;}
         .pull-left {float: left; }
@@ -108,11 +111,11 @@
     </head>
     <body>
         <div class="wrapper">
-            <header style="padding: 20px">
+            <header>
                 <h2 class="text-center">{!! config('frontend.logo_lg') !!}</h2>
             </header>
             @yield('end')
-            <footer class="row" style="padding: 20px">
+            <footer class="row">
                 <div class="text-center">
                     <strong>Copyright &copy; {!! date('Y') !!}. {!! config('frontend.credits') !!}</strong>. Todos los derechos reservados.
                 </div>

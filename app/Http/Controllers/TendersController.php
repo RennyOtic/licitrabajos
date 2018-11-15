@@ -23,6 +23,7 @@ class TendersController extends Controller
     {
         $select = ['id', 'nombre', 'descripcion', 'empresa_id', 'status_id', 'precio_minimo', 'precio_maximo', 'created_at', 'imagen', 'servicio_id', 'tiempo'];
         $licitacion = Licitacion::orderBy(request()->order?:'id', request()->dir?:'ASC')
+        ->where('tiempo_total', '>=', \Carbon::now())
         ->where('empresa_id', null)
         ->whereIn('servicio_id', \Auth::user()->servicios->pluck('id'))
         ->search(request()->search)

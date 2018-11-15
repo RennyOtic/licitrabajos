@@ -64758,6 +64758,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             _this.services = response.data.servicio;
         });
     },
+    mounted: function mounted() {
+        var _this2 = this;
+
+        navigator.geolocation.getCurrentPosition(function (position) {
+            _this2.user.longitude = position.coords.longitude;
+            _this2.user.latitude = position.coords.latitude;
+        }, function () {
+            // alert('Debe activar la localización para un mejor desempeño en la plataforma');
+        });
+    },
 
     methods: {
         getImage: function getImage(e) {
@@ -64767,12 +64777,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             axios.post('/change-notifications', { notification: this.user.notificaciones });
         },
         changePass: function changePass() {
-            var _this2 = this;
+            var _this3 = this;
 
             axios.post('change-pass', this.pass).then(function (response) {
-                _this2.pass.passwordOld = '';
-                _this2.pass.password = '';
-                _this2.pass.password_confirmation = '';
+                _this3.pass.passwordOld = '';
+                _this3.pass.password = '';
+                _this3.pass.password_confirmation = '';
                 toastr.success('Contraseña Actualizada');
             });
         },

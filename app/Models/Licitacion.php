@@ -25,6 +25,7 @@ class Licitacion extends Model
         'empresa_id',
         'servicio_id',
         'tiempo',
+        'tiempo_total',
         'imagen',
         'nombre',
         'precio_minimo',
@@ -52,7 +53,17 @@ class Licitacion extends Model
         return $this->belongsTo(Servicio::class);
     }
 
+    public function chat()
+    {
+        return $this->hasMany(Chat::class);
+    }
+
     public function empresa()
+    {
+        return $this->belongsTo(\App\Usuario::class);
+    }
+
+    public function persona()
     {
         return $this->belongsTo(\App\Usuario::class);
     }

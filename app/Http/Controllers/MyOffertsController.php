@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Oferta;
+use App\Models\{Oferta,Chat};
 
 class MyOffertsController extends Controller
 {
@@ -32,6 +32,14 @@ class MyOffertsController extends Controller
             if ($o->licitacion->evaluacion != null) {
                 for ($i = 0; $i < 5; $i++) { 
                     $o->evaluacion .= "<i class='glyphicon ".(($o->licitacion->evaluacion > $i) ? 'glyphicon-star' : 'glyphicon-star-empty')."'></i>";
+                }
+            } else {
+                if ($o->estatus_id == 2) {
+                    $chat = Chat::where('licitacion_id', $o->licitacion->id)
+                    ->where('persona_id', $o->licitacion->persona_id)
+                    ->where('empresa_id', $o->licitacion->empresa_id)
+                    ->first();
+                    if ($chat) $o->evaluacion .= '<a href="/chat/' . $chat->id . '">Empleador: ' . $o->licitacion->empresa->fullName() . '</a>';
                 }
             }
             $o->estatus_id = '<span class="badge label-'.$o->color_status().'">' . $o->estatus->nombre . '</span>';
