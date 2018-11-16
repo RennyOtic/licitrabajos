@@ -72,6 +72,12 @@ class ProfileController extends Controller
             'pais' => 'required|string|min:3|max:30',
             'sector' => 'required|string|min:3|max:100',
         ]));
+        if ($request->longitude) {
+            \Auth::user()->update(['longitude' => $request->longitude]);
+        }
+        if ($request->latitude) {
+            \Auth::user()->update(['latitude' => $request->latitude]);
+        }
     }
 
     public function notifications(Request $request)

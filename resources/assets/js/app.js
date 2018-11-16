@@ -125,3 +125,28 @@ const app = new Vue({
 		.then(response => {this.permissions = response.data;});
 	},
 }).$mount('#app');
+
+if (location.href.indexOf('/registro') != -1) {
+	if (navigator.geolocation) {
+		navigator.geolocation.getCurrentPosition((position) => {
+			$('#longitude').val(position.coords.longitude)
+			$('#latitude').val(position.coords.latitude)
+		}, function (objPositionError) {
+			let content;
+			switch (objPositionError.code) {
+				case objPositionError.PERMISSION_DENIED:
+				content = "No se ha permitido el acceso a la posición del usuario.";
+				break;
+				case objPositionError.POSITION_UNAVAILABLE:
+				content = "No se ha podido acceder a la información de su posición.";
+				break;
+				case objPositionError.TIMEOUT:
+				content = "El servicio ha tardado demasiado tiempo en responder.";
+				break;
+				default:
+				content = "Error desconocido.";
+			}
+			alert(content)
+		});
+	}
+}

@@ -48053,6 +48053,31 @@ var app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
 	}
 }).$mount('#app');
 
+if (location.href.indexOf('/registro') != -1) {
+	if (navigator.geolocation) {
+		navigator.geolocation.getCurrentPosition(function (position) {
+			$('#longitude').val(position.coords.longitude);
+			$('#latitude').val(position.coords.latitude);
+		}, function (objPositionError) {
+			var content = void 0;
+			switch (objPositionError.code) {
+				case objPositionError.PERMISSION_DENIED:
+					content = "No se ha permitido el acceso a la posición del usuario.";
+					break;
+				case objPositionError.POSITION_UNAVAILABLE:
+					content = "No se ha podido acceder a la información de su posición.";
+					break;
+				case objPositionError.TIMEOUT:
+					content = "El servicio ha tardado demasiado tiempo en responder.";
+					break;
+				default:
+					content = "Error desconocido.";
+			}
+			alert(content);
+		});
+	}
+}
+
 /***/ }),
 /* 146 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -64761,12 +64786,28 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     mounted: function mounted() {
         var _this2 = this;
 
-        navigator.geolocation.getCurrentPosition(function (position) {
-            _this2.user.longitude = position.coords.longitude;
-            _this2.user.latitude = position.coords.latitude;
-        }, function () {
-            // alert('Debe activar la localización para un mejor desempeño en la plataforma');
-        });
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function (position) {
+                _this2.user.longitude = position.coords.longitude;
+                _this2.user.latitude = position.coords.latitude;
+            }, function (objPositionError) {
+                var content = void 0;
+                switch (objPositionError.code) {
+                    case objPositionError.PERMISSION_DENIED:
+                        content = "No se ha permitido el acceso a la posición del usuario.";
+                        break;
+                    case objPositionError.POSITION_UNAVAILABLE:
+                        content = "No se ha podido acceder a la información de su posición.";
+                        break;
+                    case objPositionError.TIMEOUT:
+                        content = "El servicio ha tardado demasiado tiempo en responder.";
+                        break;
+                    default:
+                        content = "Error desconocido.";
+                }
+                alert(content);
+            });
+        }
     },
 
     methods: {
@@ -64792,7 +64833,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 municipio: this.user.municipio,
                 sector: this.user.sector,
                 calle_avenida: this.user.calle_avenida,
-                codigo_postal: this.user.codigo_postal
+                codigo_postal: this.user.codigo_postal,
+                longitude: this.user.longitude,
+                latitude: this.user.latitude
             }).then(function (response) {
                 toastr.success('Datos Actualizados');
             });
@@ -66798,6 +66841,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	name: 'licitacion',
@@ -66844,7 +66888,15 @@ var render = function() {
         _vm._v(" "),
         _c("small", { staticClass: "small" }, [
           _vm._v("Culmina " + _vm._s(_vm.data.hasta) + ".")
-        ])
+        ]),
+        _vm._v(" "),
+        _vm.data.distancia
+          ? _c("small", { staticClass: "text-danger" }, [
+              _vm._v(
+                "Esta a una distancia de: " + _vm._s(_vm.data.distancia) + "Km."
+              )
+            ])
+          : _vm._e()
       ])
     ]),
     _vm._v(" "),

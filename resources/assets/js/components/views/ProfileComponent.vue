@@ -190,12 +190,28 @@
             });
         },
         mounted() {
-            navigator.geolocation.getCurrentPosition((position) => {
-                this.user.longitude = position.coords.longitude;
-                this.user.latitude = position.coords.latitude;
-            }, function () {
-                // alert('Debe activar la localización para un mejor desempeño en la plataforma');
-            });
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition((position) => {
+                    this.user.longitude = position.coords.longitude;
+                    this.user.latitude = position.coords.latitude;
+                }, function (objPositionError) {
+                    let content;
+                    switch (objPositionError.code) {
+                        case objPositionError.PERMISSION_DENIED:
+                        content = "No se ha permitido el acceso a la posición del usuario.";
+                        break;
+                        case objPositionError.POSITION_UNAVAILABLE:
+                        content = "No se ha podido acceder a la información de su posición.";
+                        break;
+                        case objPositionError.TIMEOUT:
+                        content = "El servicio ha tardado demasiado tiempo en responder.";
+                        break;
+                        default:
+                        content = "Error desconocido.";
+                    }
+                    alert(content)
+                });
+            }
         },
         methods: {
             getImage(e){
@@ -220,6 +236,8 @@
                     sector: this.user.sector,
                     calle_avenida: this.user.calle_avenida,
                     codigo_postal: this.user.codigo_postal,
+                    longitude: this.user.longitude,
+                    latitude: this.user.latitude,
                 })
                 .then(response => {toastr.success('Datos Actualizados');});
             },

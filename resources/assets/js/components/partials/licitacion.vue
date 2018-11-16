@@ -13,6 +13,7 @@
 			<p>
 				<a class="label label-primary" href="#" v-text="data.servicio.nombre"></a>
 				<small class="small">Culmina {{ data.hasta }}.</small>
+				<small class="text-danger" v-if="data.distancia">Esta a una distancia de: {{ data.distancia }}Km.</small>
 			</p>
 		</div>
 		<div class="col-md-2 text-center">

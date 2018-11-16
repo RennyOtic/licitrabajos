@@ -152,6 +152,8 @@
                                 </span>
                                 @endif
                             </div>
+                            <input id="longitude" type="hidden" name="longitude">
+                            <input id="latitude" type="hidden" name="latitude">
 
                             <div class="col-xs-4 col-md-offset-8">
                                 <button type="submit" class="btn btn-primary btn-block btn-flat">Ingresar</button>

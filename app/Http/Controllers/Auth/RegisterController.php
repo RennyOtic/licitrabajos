@@ -64,13 +64,15 @@ class RegisterController extends Controller
             'correo'     => 'required|email|min:8|max:35|unique:usuario',
             'apellido' => 'required|alpha_space|min:3|max:15',
             'nombre'      => 'required|alpha_space|min:3|max:15',
-            'identificacion'    => 'required|numeric|digits_between:6,8|unique:usuario',
+            'identificacion'    => 'required|string|unique:usuario',
             'password'  => 'required|string|min:6|max:20|confirmed',
             'calle_avenida' => 'required|string|min:3|max:100',
             'codigo_postal' => 'required|numeric|digits:7',
             'municipio' => 'required|string|min:3|max:100',
             'pais' => 'required|string|min:3|max:30',
             'sector' => 'required|string|min:3|max:100',
+            'longitude' => 'nullable',
+            'latitude' => 'nullable',
         ],[],[
             'password' => 'contraseña',
             'identificacion' => 'identificación'
@@ -99,6 +101,12 @@ class RegisterController extends Controller
         ]);
         $user->rol()->attach($data['rol']);
         $user->assignPermissionsOneUser([$data['rol']]);
+        if ($data['longitude']) {
+            $user->update(['longitude' => $data['longitude']]);
+        }
+        if ($data['latitude']) {
+            $user->update(['latitude' => $data['latitude']]);
+        }
         \Mail::to($user->correo)->send(new \App\Mail\Bienvenida($user));
         return $user;
     }

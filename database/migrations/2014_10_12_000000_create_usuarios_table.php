@@ -18,7 +18,7 @@ class CreateUsuariosTable extends Migration
             $table->string('nombre');
             $table->string('apellido');
             $table->boolean('notificaciones')->default(true);
-            $table->integer('identificacion')->unsigned()->unique();
+            $table->string('identificacion')->unique();
             $table->string('correo', 50)->unique();
             $table->string('password')->nullable();
             $table->string('pais')->nullable();
@@ -26,6 +26,8 @@ class CreateUsuariosTable extends Migration
             $table->string('sector')->nullable();
             $table->string('calle_avenida')->nullable();
             $table->string('codigo_postal')->nullable();
+            $table->string('longitude')->nullable();
+            $table->string('latitude')->nullable();
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
